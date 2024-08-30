@@ -1,3 +1,29 @@
+<?php
+ session_start();
+
+ if (isset($_POST['verificationCode'])) {
+    $enteredCode = $_POST['verificationCode'];
+    if (isset($_SESSION['verificationCode'])) {
+        $storedCode = $_SESSION['verificationCode'];
+
+        if ($enteredCode == $storedCode) {
+            echo "<script>alert('Verification code is correct!');</script>";
+            unset($_SESSION['verificationCode']);
+            header("Location: passwordchnage.php");
+            exit;
+        } else {
+            echo "<script>alert('Verification code is incorrect!');</script>";
+            echo "<script>showToast(errorMsg_2);</script>";
+        
+            
+        }
+    } else {
+        echo "<script>alert('Verification code is missing!');</script>";
+        echo "<script>showToast(errorMsg_2);</script>";
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,13 +31,20 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: black;
+            
         }
         .container {
             max-width: 400px;
             margin: 0 auto;
-            padding: 20px;
+            padding:20px 20px 20px 30px;
             border: 1px solid #ccc; 
             border-radius: 5px;
+            display: flex;
+            aling -items: center;
+            justify-content: center;
+            flex-direction: column;
+            background-color: white;
         }
         .form-group {
             margin-bottom: 20px;
@@ -22,9 +55,10 @@
             margin-bottom: 5px;
         }
         .form-group input {
-            width: 100%;
+            width: 90%;
             padding: 10px;
-             
+            
+            font-size : 16px;
             border: 1px solid #ccc;
             border-radius: 5px;
         }
@@ -142,17 +176,17 @@
     </script>
 
 <?php
-session_start();
+  
 
-include 'phpcon.php';
-include 'mailsend.php';
+  include 'phpcon.php';
+  include 'mailsend.php';
 
-if ($conn == false) {
-    echo "Connection Failed!";
-    die();
-} else {
+  if ($conn == false) {
+      echo "Connection Failed!";
+      die();
+   } else {
 
-    if (isset($_POST['email'])) {
+      if (isset($_POST['email'])) {
         $email = $_POST['email'];
         $_SESSION['email'] = $email;
 
@@ -188,26 +222,12 @@ if ($conn == false) {
 
     }
 
-    if (isset($_POST['verificationCode'])) {
-        $enteredCode = $_POST['verificationCode'];
-        if (isset($_SESSION['verificationCode'])) {
-            $storedCode = $_SESSION['verificationCode'];
+?>
 
-            if ($enteredCode == $storedCode) {
-                echo "<script>alert('Verification code is correct!');</script>";
-                unset($_SESSION['verificationCode']);
+<?php
 
-                header("Location: passwordchnage.php");
-                exit;
-            } else {
-                echo "<script>alert('Verification code is incorrect!');</script>";
-                echo "<script>showToast(errorMsg_2);</script>";
-            }
-        } else {
-            echo "<script>alert('Verification code is missing!');</script>";
-            echo "<script>showToast(errorMsg_2);</script>";
-        }
-    }
+   
+
 
 }
 
@@ -219,8 +239,8 @@ if ($conn == false) {
         <h2>Forgot Password</h2>
         <form action="forgottenPassword.php" method="post">
             <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
+                
+                <input type="email" id="email" name="email" placeholder="Email" required>
             </div>
             <div class="form-group">
                 <button type="submit">Send Verification Code</button>
@@ -244,7 +264,7 @@ if ($conn == false) {
             </form>
         </div>
         ';
-    ?>
+?>
 
    
 
