@@ -5,10 +5,10 @@ session_start();
 unset($_SESSION['verificationVariable']);
 
 
-if (!isset($_SESSION['email'])) {
-    header("Location: ../index.html");
-    exit;
-}
+// if (!isset($_SESSION['email'])) {
+//     header("Location: ../index.html");
+//     exit;
+// }
 
 
 if (isset($_POST['logout'])) {

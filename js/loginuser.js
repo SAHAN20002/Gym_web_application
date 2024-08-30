@@ -4,7 +4,7 @@ document.getElementById('login_form').addEventListener('submit', function(e) {
   let toastBox = document.getElementById('toastBox');
 
   
-  let errorMsg = '<i class="fa-solid fa-circle-xmark"></i> Invalid email or password. Please try again';
+  let errorMsg = '<i class="fa-solid fa-circle-xmark"></i> Incorrect email or password. Please try again';
   let invalidMsg = '<i class="fa-solid fa-circle-exclamation"></i> Invalid Please fill in all fields';
 
   let email = document.getElementById('email').value;
@@ -62,7 +62,7 @@ function showToast(msg) {
   toast.innerHTML = msg;
   toastBox.appendChild(toast);
 
-  if (msg.includes("error")) {
+  if (msg.includes("Incorrect")) {
     toast.classList.add("error");
   }
   if (msg.includes("Invalid")) {
