@@ -1,9 +1,4 @@
-<?php
-session_start();  
-
-?>
-
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html>
 <head>
     <title>Forgot Password</title>
@@ -15,7 +10,7 @@ session_start();
             max-width: 400px;
             margin: 0 auto;
             padding: 20px;
-            border: 1px solid #ccc;
+            border: 1px solid #ccc; 
             border-radius: 5px;
         }
         .form-group {
@@ -114,48 +109,13 @@ session_start();
 </head>
 
 <body>
-  <?php
-   if(!isset($_SESSION['verificationCode']) || $_SESSION['verificationCode'] == null){ 
-        echo '
-        
-    <div class="container">
-        <h2>Forgot Password</h2>
-        <form action="forgottenPassword.php" method="post">
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-                <button type="submit">Send Verification Code</button>
-            </div>
-        </form>
-    </div>
-    ';
-    }
-    ?>
-    <?php
-    if(isset($_SESSION['verificationCode'])) {
-        echo '
-        <div class="container">
-            <h2>Enter Verification Code</h2>
-            <form action="forgottenPassword.php" method="post">
-            <div class="form-group">
-                <label for="verificationCode">Verification Code:</label>
-                <input type="text" id="verificationCode" name="verificationCode" required>
-            </div>
-            <div class="form-group">
-                <button type="submit">Verify Code</button>
-            </div>
-            </form>
-        </div>
-        ';
-    }
-    ?>
-    <div id="toastBox" class="toastBox"></div>
+<div id="toastBox" class="toastBox"></div>
 
-    <script src="https://kit.fontawesome.com/725fc9de50.js" crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/725fc9de50.js" crossorigin="anonymous"></script>
     <script>
 
+        
+        
         let successMsg = '<i class="fa-solid fa-circle-check"></i> Verification code send successfully';
         let errorMsg = '<i class="fa-solid fa-circle-xmark"></i> Error ! Email not found!';
         let errorMsg_2 = '<i class="fa-solid fa-circle-xmark"></i> Error ! Verification code is incorrect!';
@@ -177,72 +137,117 @@ session_start();
               toast.remove();
             }, 3000);
           }
+          
+
     </script>
-</body>
-</html>
 
-<?php 
-   
- 
- include 'phpcon.php';
- include 'mailsend.php';
+<?php
+session_start();
 
-    if($conn == false){
-        echo "Connection Failed!";
-        die();      
-    }else{
-        
-        if(isset($_POST['email'])){
-            $email = $_POST['email'];
-            $_SESSION['email'] = $email;   
-        
-            $query = "SELECT * FROM users WHERE email = '$email'";
-            $result = mysqli_query($conn, $query);
+include 'phpcon.php';
+include 'mailsend.php';
 
-            if(mysqli_num_rows($result) > 0) {
-                // Email exists, proceed with sending verification code
-                $verificationCode = mt_rand(1000, 9999);
-                $_SESSION['verificationCode'] = $verificationCode;
+if ($conn == false) {
+    echo "Connection Failed!";
+    die();
+} else {
 
-                $to = $email;
-                $subject = "Forgot Password";
-                $message = "Your verification code is: $verificationCode";
-                $headers = "From: your_email@example.com";
-                
-                if (mailsend($to, $subject, $message, $headers)) {
-                    // echo "Verification code sent successfully!";
-                    // echo "<script>alert('Verification code sent successfully!');</script>";
-                    echo "<script>showToast(successMsg);</script>";
+    if (isset($_POST['email'])) {
+        $email = $_POST['email'];
+        $_SESSION['email'] = $email;
 
-                } else {
-                    // echo "Failed to send verification code!";
-                    echo "<script>alert('Failed to send verification code!');</script>";
-                }
-                
+        $query = "SELECT * FROM users WHERE email = '$email'";
+        $result = mysqli_query($conn, $query);
+
+        if (mysqli_num_rows($result) > 0) {
+            // Email exists, proceed with sending verification code
+            $verificationCode = mt_rand(1000, 9999);
+            $_SESSION['verificationCode'] = $verificationCode;
+
+            $to = $email;
+            $subject = "Forgot Password";
+            $message = "Your verification code is: $verificationCode";
+            $headers = "From: your_email@example.com";
+
+            if (mailsend($to, $subject, $message, $headers)) {
+                // echo "Verification code sent successfully!";
+                //  echo "<script>alert('Verification code sent successfully!');</script>";
+                echo "<script>showToast(successMsg);</script>";
+
             } else {
-                // Email does not exist in the users table, show error message
-                // echo "<script>alert('Email not found!');</script>";
-                echo "<script>showToast(errorMsg);</script>";
+                // echo "Failed to send verification code!";
+                echo "<script>alert('Failed to send verification code!');</script>";
             }
 
-            
+        } else {
+            // Email does not exist in the users table, show error message
+            //  echo "<script>alert('Email not found!');</script>";
+            echo "<script>showToast(errorMsg);</script>";
         }
 
-        if(isset($_POST['verificationCode'])){
-            $enteredCode = $_POST['verificationCode'];
+
+    }
+
+    if (isset($_POST['verificationCode'])) {
+        $enteredCode = $_POST['verificationCode'];
+        if (isset($_SESSION['verificationCode'])) {
             $storedCode = $_SESSION['verificationCode'];
 
-            if($enteredCode == $storedCode){
+            if ($enteredCode == $storedCode) {
                 echo "<script>alert('Verification code is correct!');</script>";
-                unset($_SESSION['verificationCode']); 
-               
-                header("Location: passwordchnage.php");   
+                unset($_SESSION['verificationCode']);
+
+                header("Location: passwordchnage.php");
+                exit;
             } else {
                 echo "<script>alert('Verification code is incorrect!');</script>";
                 echo "<script>showToast(errorMsg_2);</script>";
             }
+        } else {
+            echo "<script>alert('Verification code is missing!');</script>";
+            echo "<script>showToast(errorMsg_2);</script>";
         }
-       
     }
-?>
 
+}
+
+    
+    if (!isset($_SESSION['verificationCode']) || $_SESSION['verificationCode'] == null) {
+        echo '
+        
+    <div class="container">
+        <h2>Forgot Password</h2>
+        <form action="forgottenPassword.php" method="post">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Send Verification Code</button>
+            </div>
+        </form>
+    </div>
+    ';
+    } else
+
+        echo '
+        <div class="container">
+            <h2>Enter Verification Code</h2>
+            <form action="forgottenPassword.php" method="post">
+            <div class="form-group">
+                <label for="verificationCode">Verification Code:</label>
+                <input type="text" id="verificationCode" name="verificationCode" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Verify Code</button>
+            </div>
+            </form>
+        </div>
+        ';
+    ?>
+
+   
+
+    
+</body>
+</html>

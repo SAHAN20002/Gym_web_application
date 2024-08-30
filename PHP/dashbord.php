@@ -1,14 +1,22 @@
 <?php
 session_start();
 
-
 unset($_SESSION['verificationVariable']);
 
+// $response = array(
+//     'session_value' => isset($_SESSION['email']) ? $_SESSION['email'] : null
+// );
 
- if (!isset($_SESSION['email'])) {
-     header("Location: ../index.html");
+// echo json_encode($response);
+
+if (!isset($_SESSION['email'])) {
+    // Clear local storage
+    header("Location: ../index.html");
     exit;
 }
+
+
+
 
 
 if (isset($_POST['logout'])) {
@@ -109,8 +117,7 @@ if (isset($_POST['logout'])) {
         });
 
         document.getElementById('logoutButton').addEventListener('click', function() {
-           
-            localStorage.clear();
+               localStorage.clear();
         });
 
         document.getElementById('Home_page').addEventListener('click', function() {
