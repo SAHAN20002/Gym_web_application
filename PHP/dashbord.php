@@ -3,16 +3,17 @@ session_start();
 
 unset($_SESSION['verificationVariable']);
 
-// $response = array(
-//     'session_value' => isset($_SESSION['email']) ? $_SESSION['email'] : null
-// );
-
-// echo json_encode($response);
+ 
 
 if (!isset($_SESSION['email'])) {
-    // Clear local storage
-    header("Location: ../index.html");
+    
+    //   echo'Notloggedin';
+     echo '<script>localStorage.clear();</script>';
+     echo '<script>window.location.href = "../index.html";</script>';
+    
     exit;
+}else{
+    echo 'Loggedin';
 }
 
 

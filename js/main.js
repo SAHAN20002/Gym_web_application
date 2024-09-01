@@ -179,23 +179,20 @@ window.addEventListener('scroll', function() {
 
     const isLoggedIn = getSessionWithExpiry("email"); 
 
-    // fetch('dashbord.php') // Check if session value is null
-    //     .then(response => response.text()) // Handle response as text
-    //     .then(data => {
-    //         if (data.includes('<!DOCTYPE')) {
-    //             // Response is not valid JSON, handle the error
-    //             console.error('Error: Invalid response');
-    //         } else {
-    //             // Response is valid, continue with the logic
-    //             const jsonData = JSON.parse(data);
-    //             if (jsonData.session_value === null) {
-    //                 // Session value is null, clear local storage
-    //                 localStorage.clear();
-    //                 console.log('Local storage cleared due to null session value.');
-    //             } else {
-    //                 console.log('Session value exists:', jsonData.session_value);
-    //             }
-    //         }
+    //  fetch('PHP/dashbord.php') 
+    //      .then(response => response.text()) 
+    //      .then(data => {
+    //          if (data.includes('Notloggedin')) {
+                 
+    //             //  localStorage.clear();
+    //             console.log('Local storage cleared due to null session value.');
+    //          } else {
+    //              // Response is valid, continue with the logic
+    //              console.error('local storage not cleared');
+    //                  // Session value is null, clear local storage
+                     
+                
+    //          }
     //     })
     //     .catch(error => console.error('Error:', error));
       

@@ -69,6 +69,7 @@ if(isset($_SESSION['verificationVariable'])== null){
 <?php
  
  include 'phpcon.php';
+ include 'mailsend.php';
 
 
 
@@ -104,8 +105,19 @@ if (isset($_SESSION['verificationVariable']) && isset($_SESSION['email'])) {
                 $row = mysqli_fetch_assoc($result);
                 $V_status = $row['email_v_status'];
             }
+               
+            $email = $_SESSION['email'];  
 
                 if ($result && $V_status == true) {
+                    // Send a welcome email to the user
+                    
+                    $to = $email;
+                    $subject = "FITNESS ZONE ";
+                    $message = "Welcome to Fitnes Zone! We're thrilled to have you on board.  your account is now active,then log in to set up your profile. Once you're all set, explore the many features and resources available to you. If you need any help, our support team is ready to assist. Thank you for joining us—we look forward to your active participation!
+                                supoort team email: zonef845@gmail.com";
+                    $headers = "From: your_email@example.com";
+
+                    mailsend($to, $subject, $message, $headers);
 
                     echo "<script>alert('Email verification status updated successfully');</script>";
                     header("Location: dashbord.php");
