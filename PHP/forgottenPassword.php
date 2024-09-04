@@ -181,6 +181,8 @@
   include 'phpcon.php';
   include 'mailsend.php';
 
+  
+
   if ($conn == false) {
       echo "Connection Failed!";
       die();
@@ -196,7 +198,7 @@
         if (mysqli_num_rows($result) > 0) {
             // Email exists, proceed with sending verification code
             $verificationCode = mt_rand(1000, 9999);
-            $_SESSION['verificationCode'] = $verificationCode;
+            
 
             $to = $email;
             $subject = "Forgot Password";
@@ -206,6 +208,8 @@
             if (mailsend($to, $subject, $message, $headers)) {
                 // echo "Verification code sent successfully!";
                 //  echo "<script>alert('Verification code sent successfully!');</script>";
+                $_SESSION['verificationCode'] = $verificationCode;
+                
                 echo "<script>showToast(successMsg);</script>";
 
             } else {

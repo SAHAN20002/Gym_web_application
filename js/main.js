@@ -179,6 +179,10 @@ window.addEventListener('scroll', function() {
 
     const isLoggedIn = getSessionWithExpiry("email"); 
 
+    let successMsg = '<i class="fa-solid fa-circle-check"></i> session set successfully';
+    let errorMsg = '<i class="fa-solid fa-circle-xmark"></i> Incorrect email or password. Please try again';
+    let invalidMsg = '<i class="fa-solid fa-circle-exclamation"></i> Invalid ! You time is out Login again';
+
     //  fetch('PHP/dashbord.php') 
     //      .then(response => response.text()) 
     //      .then(data => {
@@ -197,9 +201,11 @@ window.addEventListener('scroll', function() {
     //     .catch(error => console.error('Error:', error));
       
      if (isSessionSet()) {
-         alert('Session is set');    
+        //  alert('Session is set'); 
+         showToast(successMsg);   
      } else {
-         alert('Session is not set');
+        //  alert('Session is not set');
+         showToast(invalidMsg);
      }
         
         const loginButton = document.getElementById('loginButton');
@@ -212,7 +218,7 @@ window.addEventListener('scroll', function() {
             loginButton.onclick = function() {
                 window.location.href = 'PHP/dashbord.php'; // Redirect to profile page
             };
-            loginButton.innerHTML = '<img src="user-icon.png" alt="User Icon" style="width:20px; height:20px;">'; 
+            loginButton.innerHTML = '<img src="img/logo/user_icon.png" alt="User Icon" style="width:20px; height:20px;">'; 
         }
 }
 
@@ -240,3 +246,22 @@ function getSessionWithExpiry(key) {
     return item.value;
 }
 
+function showToast(msg) {
+    
+    let toastBox = document.getElementById("toastBox");
+    
+    let toast = document.createElement("div");
+    toast.classList.add("toast");
+    toast.innerHTML = msg;
+    toastBox.appendChild(toast);
+  
+    if (msg.includes("Incorrect")) {
+      toast.classList.add("error");
+    }
+    if (msg.includes("Invalid")) {
+      toast.classList.add("Invalid");
+    }
+    setTimeout(function () {
+      toast.remove();
+    }, 3000);
+  }

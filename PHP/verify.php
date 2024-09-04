@@ -114,6 +114,7 @@ if (isset($_SESSION['verificationVariable']) && isset($_SESSION['email'])) {
                     $to = $email;
                     $subject = "FITNESS ZONE ";
                     $message = "Welcome to Fitnes Zone! We're thrilled to have you on board.  your account is now active,then log in to set up your profile. Once you're all set, explore the many features and resources available to you. If you need any help, our support team is ready to assist. Thank you for joining us—we look forward to your active participation!
+                    
                                 supoort team email: zonef845@gmail.com";
                     $headers = "From: your_email@example.com";
 

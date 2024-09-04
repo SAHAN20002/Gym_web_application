@@ -3246,3 +3246,72 @@ ol {
 		font-size: 28px;
 	}
 }
+
+/*Toster msg*/
+.toastBox{
+	position: absolute;
+	bottom: 30px;
+	right: 30px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	overflow: hidden;
+	padding: 10px;
+	border-radius: 10px;
+	z-index: 1000;
+  }
+  .toast{
+	width: 400px;
+	height: 60px;
+	background-color:rgba(255, 255, 255, 0.79);
+	font-weight: 500;
+	margin: 15px 0;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+	display: flex;
+	align-items: center;
+	position: relative;
+	transform: translateX(100%);
+	animation: moveleft 0.5s linear forwards;
+	
+  }
+  @keyframes moveleft{
+	100%{
+		transform:translateX(0) ;
+	}
+  }
+  .toast i{
+	margin: 0 20px;
+	font-size: 35px;
+	color: green;
+  }
+  .toast.error i{
+	color: rgb(255, 3, 3);
+  }
+  .toast.Invalid i{
+	color: #ffea00;
+  }
+  .toast::after{
+	content: '';
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 5px;
+	background: green;
+	animation: anim 5s linear forwards;
+	
+  }
+  
+  @keyframes anim {
+	100%{
+		width: 0;
+	}
+  }
+  .toast.error::after{
+	background-color: red;
+  }
+  .toast.Invalid::after{
+	background-color: #ffea00;
+  }
+
+  /*Toster msg*/
