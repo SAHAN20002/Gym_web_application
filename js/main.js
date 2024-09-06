@@ -175,7 +175,7 @@ window.addEventListener('scroll', function() {
     }
 });
 
-   window.onload = function (){
+window.onload = function (){
 
     const isLoggedIn = getSessionWithExpiry("email"); 
 
@@ -183,22 +183,7 @@ window.addEventListener('scroll', function() {
     let errorMsg = '<i class="fa-solid fa-circle-xmark"></i> Incorrect email or password. Please try again';
     let invalidMsg = '<i class="fa-solid fa-circle-exclamation"></i> Invalid ! You time is out Login again';
 
-    //  fetch('PHP/dashbord.php') 
-    //      .then(response => response.text()) 
-    //      .then(data => {
-    //          if (data.includes('Notloggedin')) {
-                 
-    //             //  localStorage.clear();
-    //             console.log('Local storage cleared due to null session value.');
-    //          } else {
-    //              // Response is valid, continue with the logic
-    //              console.error('local storage not cleared');
-    //                  // Session value is null, clear local storage
-                     
-                
-    //          }
-    //     })
-    //     .catch(error => console.error('Error:', error));
+    
       
      if (isSessionSet()) {
          alert('Session is set'); 
@@ -220,7 +205,42 @@ window.addEventListener('scroll', function() {
             };
             loginButton.innerHTML = '<img src="img/logo/user_icon.png" alt="User Icon" style="width:20px; height:20px;">'; 
         }
-}
+
+        //let Plan_time_1 = document.getElementById('Plan_time_1').textContent;
+        let Plan_time_2 = document.getElementById('Plan_time_2').value;
+        let Plan_time_3 = document.getElementById('Plan_time_3').value;
+
+       // let Price_1 = document.getElementById('Price_1').value;
+        let Price_2 = document.getElementById('Price_2');
+        let Price_3 = document.getElementById('Price_3');
+
+        let des_1 = document.getElementById('des_1').value;
+        let des_2 = document.getElementById('des_2');
+        let des_3 = document.getElementById('des_3');
+
+        // Fetch data from the PHP file
+         fetch('PHP/M_plan.php') // Adjust the path to your PHP file
+         .then(response => {
+             if (!response.ok) {
+                 throw new Error('Network response was not ok');
+             }
+             return response.json();
+         })
+         .then(data => {
+       
+                     document.getElementById('Plan_time_1').textContent = data.name;
+                     document.getElementById('Price_1').textContent = data.price;
+                     document.getElementById('des_1').textContent = data.benefits_1;
+                     document.getElementById('des_5').textContent = data.p_id;
+
+                 
+                    console.log(data);  
+          })
+         .catch(error => {
+             console.error('Error:', error);
+             console.error('Error message:', error.message); 
+         });
+    }
 
 function isSessionSet() {
     const isLoggedIn = localStorage.getItem('email');

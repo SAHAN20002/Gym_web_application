@@ -42,7 +42,7 @@ if ($conn == false) {
 
                 $to = $email;
                 $subject = "Delete Account";
-                $message = "thank you for using our service. Your account has been deleted successfully.if you have any question please contact us";
+                $message = "Thank you for using our service. Your account has been deleted successfully.if you have any question please contact us. supoort team email: zonef845@gmail.com";
                 $headers = "From: your_email@example.com";
                 mailsend($to, $subject, $message, $headers);
 

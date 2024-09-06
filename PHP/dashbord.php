@@ -105,11 +105,13 @@ if (isset($_POST['logout'])) {
     <div class="big-word">Dashboard</div>
     
     <!-- Logout button triggers a form submission -->
+     
     <form method="POST">
         <input type="submit" value="Logout" name="logout" id="logoutButton">
     </form>
      <input type="button" value="Home page" name = "Home_Page" id = "Home_page">
      <input type="button" value="delete account" id="delete_button">
+
     <script>
 
         window.addEventListener('load', function () {
