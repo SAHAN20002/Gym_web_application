@@ -201,11 +201,11 @@ window.addEventListener('scroll', function() {
     //     .catch(error => console.error('Error:', error));
       
      if (isSessionSet()) {
-        //  alert('Session is set'); 
-         showToast(successMsg);   
+         alert('Session is set'); 
+         //showToast(successMsg);   
      } else {
-        //  alert('Session is not set');
-         showToast(invalidMsg);
+         alert('Session is not set');
+         //showToast(invalidMsg);
      }
         
         const loginButton = document.getElementById('loginButton');
@@ -246,22 +246,22 @@ function getSessionWithExpiry(key) {
     return item.value;
 }
 
-function showToast(msg) {
+// function showToast(msg) {
     
-    let toastBox = document.getElementById("toastBox");
+//     let toastBox = document.getElementById("toastBox");
     
-    let toast = document.createElement("div");
-    toast.classList.add("toast");
-    toast.innerHTML = msg;
-    toastBox.appendChild(toast);
+//     let toast = document.createElement("div");
+//     toast.classList.add("toast");
+//     toast.innerHTML = msg;
+//     toastBox.appendChild(toast);
   
-    if (msg.includes("Incorrect")) {
-      toast.classList.add("error");
-    }
-    if (msg.includes("Invalid")) {
-      toast.classList.add("Invalid");
-    }
-    setTimeout(function () {
-      toast.remove();
-    }, 3000);
-  }
+//     if (msg.includes("Incorrect")) {
+//       toast.classList.add("error");
+//     }
+//     if (msg.includes("Invalid")) {
+//       toast.classList.add("Invalid");
+//     }
+//     setTimeout(function () {
+//       toast.remove();
+//     }, 3000);
+//   }

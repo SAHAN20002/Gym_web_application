@@ -3,6 +3,7 @@ session_start();
 
 unset($_SESSION['verificationVariable']);
 
+
  
 
 if (!isset($_SESSION['email'])) {
@@ -14,6 +15,7 @@ if (!isset($_SESSION['email'])) {
     exit;
 }else{
     echo 'Loggedin';
+    echo '$email';
 }
 
 
@@ -107,7 +109,7 @@ if (isset($_POST['logout'])) {
         <input type="submit" value="Logout" name="logout" id="logoutButton">
     </form>
      <input type="button" value="Home page" name = "Home_Page" id = "Home_page">
-     <input type="button" value="delete account">
+     <input type="button" value="delete account" id="delete_button">
     <script>
 
         window.addEventListener('load', function () {
@@ -124,6 +126,13 @@ if (isset($_POST['logout'])) {
 
         document.getElementById('Home_page').addEventListener('click', function() {
             window.location.href = "../index.html";
+        });
+
+        document.getElementById('delete_button').addEventListener('click', function() {
+            var r = confirm("Are you sure you want to delete your account?");
+            if (r == true) {
+                window.location.href = "deleteAccount.php";
+            }
         });
         
     </script>
