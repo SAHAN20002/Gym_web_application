@@ -4,17 +4,20 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Query to get data for a specific plan (you can adjust the query)
-$sql = "SELECT p_id, name, price, benefits_1 FROM membership WHERE p_id = 'P001'";  // Replace table name and conditions as needed
+
+$sql = "SELECT p_id, name, price, benefits_1,benefits_2	,benefits_3,benefits_4,	benefits_5 FROM membership";   
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
-    // Fetch the data as an associative array
-    $row = $result->fetch_assoc();
-    echo json_encode($row);
+
+    $data = array();
+    while ($row = $result->fetch_assoc()) {
+        $data[] = $row;  
+    }
+    echo json_encode($data);
    
 } else {
-    echo "No data found";
+    echo json_encode([]);
 }
 
 $conn->close();

@@ -206,17 +206,7 @@ window.onload = function (){
             loginButton.innerHTML = '<img src="img/logo/user_icon.png" alt="User Icon" style="width:20px; height:20px;">'; 
         }
 
-        //let Plan_time_1 = document.getElementById('Plan_time_1').textContent;
-        let Plan_time_2 = document.getElementById('Plan_time_2').value;
-        let Plan_time_3 = document.getElementById('Plan_time_3').value;
-
-       // let Price_1 = document.getElementById('Price_1').value;
-        let Price_2 = document.getElementById('Price_2');
-        let Price_3 = document.getElementById('Price_3');
-
-        let des_1 = document.getElementById('des_1').value;
-        let des_2 = document.getElementById('des_2');
-        let des_3 = document.getElementById('des_3');
+        
 
         // Fetch data from the PHP file
          fetch('PHP/M_plan.php') // Adjust the path to your PHP file
@@ -227,14 +217,45 @@ window.onload = function (){
              return response.json();
          })
          .then(data => {
-       
-                     document.getElementById('Plan_time_1').textContent = data.name;
-                     document.getElementById('Price_1').textContent = data.price;
-                     document.getElementById('des_1').textContent = data.benefits_1;
-                     document.getElementById('des_5').textContent = data.p_id;
-
-                 
-                    console.log(data);  
+             if(Array.isArray(data)) {
+            for(let i=0;i<data.length;i++){
+                
+                if(data[i].p_id === "P001"){
+                    document.getElementById('Plan_time_1').textContent = data[i].name;
+                    document.getElementById('Price_1').textContent = data[i].price;
+                    document.getElementById('des_1_1').textContent = data[i].benefits_1;
+                    document.getElementById('des_1_2').textContent = data[i].benefits_2;
+                    document.getElementById('des_1_3').textContent = data[i].benefits_3;
+                    document.getElementById('des_1_4').textContent = data[i].benefits_4;
+                    document.getElementById('des_1_5').textContent = data[i].benefits_5;
+                    document.getElementById('P_id_1').textContent = data[i].p_id;
+                }
+                if(data[i].p_id === "P002"){
+                    document.getElementById('Plan_time_2').textContent = data[i].name;
+                    document.getElementById('Price_2').textContent = data[i].price;
+                    document.getElementById('des_2_1').textContent = data[i].benefits_1;
+                    document.getElementById('des_2_2').textContent = data[i].benefits_2;
+                    document.getElementById('des_2_3').textContent = data[i].benefits_3;
+                    document.getElementById('des_2_4').textContent = data[i].benefits_4;
+                    document.getElementById('des_2_5').textContent = data[i].benefits_5;
+                    document.getElementById('P_id_2').textContent = data[i].p_id;
+                }
+                if(data[i].p_id === "P003"){
+                    document.getElementById('Plan_time_3').textContent = data[i].name;
+                    document.getElementById('Price_3').textContent = data[i].price;
+                    document.getElementById('des_3_1').textContent = data[i].benefits_1;
+                    document.getElementById('des_3_2').textContent = data[i].benefits_2;
+                    document.getElementById('des_3_3').textContent = data[i].benefits_3;
+                    document.getElementById('des_3_4').textContent = data[i].benefits_4;
+                    document.getElementById('des_3_5').textContent = data[i].benefits_5;
+                    document.getElementById('P_id_3').textContent = data[i].p_id;
+                }
+              }
+             }else{
+                console.log('No data found');
+             }
+                              
+                   console.log(data);  
           })
          .catch(error => {
              console.error('Error:', error);
