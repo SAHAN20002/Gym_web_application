@@ -1582,7 +1582,7 @@ ol {
 }
 
 .class-timetable.details-timetable td h5 {
-	color: #ffffff1a;
+	color: #ffffff;
 }
 
 .class-timetable.details-timetable td span {
@@ -1602,7 +1602,8 @@ ol {
 }
 
 .class-timetable.details-timetable td.hover-dp:hover h5 {
-	color: #000000;
+	color: #f3d700;
+	cursor: pointer;
 }
 
 .class-timetable.details-timetable td.hover-dp:hover span {
@@ -1676,7 +1677,7 @@ ol {
 }
 
 .class-timetable table tbody tr td h5 {
-	color: #ffffff;
+	color: #f3d700;
 	font-weight: 600;
 	text-transform: uppercase;
 	margin-bottom: 10px;
@@ -1685,7 +1686,7 @@ ol {
 .class-timetable table tbody tr td span {
 	display: block;
 	font-size: 12px;
-	color: #a9a9a9;
+	color: #f3d700;
 }
 
 /*---------------------

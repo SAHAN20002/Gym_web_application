@@ -208,8 +208,8 @@ window.onload = function (){
 
         
 
-        // Fetch data from the PHP file
-         fetch('PHP/M_plan.php') // Adjust the path to your PHP file
+        // Membership Plan show in index page
+         fetch('PHP/M_plan.php') 
          .then(response => {
              if (!response.ok) {
                  throw new Error('Network response was not ok');
@@ -261,6 +261,37 @@ window.onload = function (){
              console.error('Error:', error);
              console.error('Error message:', error.message); 
          });
+
+        // Membership Plan show in index page
+
+        // // Class time show in index page
+        // fetch('PHP/TimeTable.php') // Path to the PHP script
+        // .then(response => response.json())
+        // .then(data => {
+        //     console.log(data);
+        //     // Iterate through each time slot and day to populate the table
+        //      for (let time_slot in data) {
+        //         for (let day in data[time_slot]) {
+        //              const classData = data[time_slot][day];
+        //              const tableCell = document.querySelector(
+        //                  `td[data-time="${time_slot}"][data-day="${day}"]`
+        //              );
+                    
+        //              if (tableCell) {
+        //                  tableCell.classList.add(classData.meta_type);
+        //                  tableCell.innerHTML = `
+        //                      <h5>${classData.class_name}</h5>
+        //                      <span>${classData.instructor_name}</span>
+        //                  `;
+        //              }
+        //          }
+        //      }
+        // })
+        // .catch(error => console.error('Error:', error));
+    
+
+
+        // Class time show in index page
     }
 
 function isSessionSet() {
