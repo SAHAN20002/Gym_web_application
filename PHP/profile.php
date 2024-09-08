@@ -34,6 +34,7 @@ if ($result) {
     $nic = isset($row['NIC']) ? $row['NIC'] : '';
     $mobile = isset($row['p_number']) ? $row['p_number'] : '';
     $user_id = isset($row['user_id']) ? $row['user_id'] : '';
+    $age = isset($row['age']) ? $row['age'] : '';
     $profile_pic = isset($row['profile_photo']) ? $row['profile_photo'] : '';
 
     // Update the corresponding HTML elements with the values
@@ -395,9 +396,11 @@ if (isset($_POST['logout'])) {
 
             <br>
             <?php
+             echo '<p id="UID">User ID : '.$user_id.'</p>';
             echo '<p id="name">User : '.$name.'</p>';
             echo '<p id="Gender">Gender : '.$gender.'</p>';
             echo '<p id="NIC">NIC : '.$nic.'</p>';
+            echo '<p id="age">AGE : '.$age.'</p>';
             echo '<p id="Email">Email : '.$email.'</p>';
             echo '<p id="M_number">Mobile No : '.$mobile.'</p>';
             ?>
@@ -478,7 +481,7 @@ if (isset($_POST['logout'])) {
                 <p class="p_I"><strong>User:</strong> <input type="text" id="userName" value="<?php echo $name; ?>" disabled></p>
                 <p class="p_I"><strong>Email:</strong> <input type="email" id="userEmail" value="<?php echo $email; ?>" disabled></p>
                 <p class="p_I"><strong>Mobile No:</strong> <input type="text" id="userMobile" value="<?php echo $mobile; ?>" disabled></p>
-                <p class="p_I"><strong>Age:</strong> <input type="text" id="Age" value="<?php echo $nic; ?>" disabled></p>
+                <p class="p_I"><strong>Age:</strong> <input type="text" id="Age" value="<?php echo $age; ?>" disabled></p>
                 
                 <button class="button_In" id="editInfoBtn" onclick="editInfo()">Edit Info</button>
                 <button class="button_In" id="saveInfoBtn" style="display: none;" onclick="saveInfo()">Save
@@ -489,6 +492,13 @@ if (isset($_POST['logout'])) {
 
     
     <script>
+
+        var phpname = "<?php echo $name; ?>";
+        var phpemail = "<?php echo $email; ?>";
+        var phpmobile = "<?php echo $mobile; ?>";
+        var phpage = "<?php echo $age; ?>";
+        var user_id = "<?php echo $user_id; ?>";
+
         function show_P_C_2(){
            document.getElementById("profile_container_2").style.display = "block";
            document.getElementById("Body").style.filter = "blur(5px)";
@@ -499,7 +509,8 @@ if (isset($_POST['logout'])) {
            document.getElementById("profile_container_2").style.display = "none";
            document.getElementById("Body").style.filter = "blur(0px)";
            document.getElementById("profile_container_2").classList.remove("animate-show");
-}
+           location.reload();
+        }
         document.getElementById('delete_button').addEventListener('click', function() {
             var r = confirm("Are you sure you want to delete your account?");
             if (r == true) {
@@ -525,24 +536,70 @@ if (isset($_POST['logout'])) {
 
         let tempImage = ''; // Store temporary image for profile picture
 
-// Trigger file upload
-function triggerUpload() {
-    document.getElementById('upload').click();
-}
+       // Trigger file upload
+       function triggerUpload() {
+           document.getElementById('upload').click();
+        }
 
-// Handle image upload and preview
-document.getElementById('upload').addEventListener('change', function() {
-    const file = this.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            tempImage = e.target.result;
-            document.getElementById('profileImage').src = tempImage;
-            document.getElementById('savePhotoBtn').style.display = 'inline-block';
-        };
-        reader.readAsDataURL(file);
-    }
-});
+      // Handle image upload and preview
+       document.getElementById('upload').addEventListener('change', function() {
+          const file = this.files[0];
+            if (file) {
+               const reader = new FileReader();
+               reader.onload = function(e) {
+               tempImage = e.target.result;
+               document.getElementById('profileImage').src = tempImage;
+               document.getElementById('savePhotoBtn').style.display = 'inline-block';
+             };
+             reader.readAsDataURL(file);
+            }
+        });
+
+        function saveInfo(){
+
+            let username = document.getElementById('userName').value;
+            let email = document.getElementById('userEmail').value;
+            let mobile = document.getElementById('userMobile').value;
+            let age = document.getElementById('Age').value;
+
+            if (username === '' || email === '' || mobile === '' || age === '') {
+                alert('Please fill all the fields');
+                return;
+            }
+
+            if (email == phpemail && mobile == phpmobile && age == phpage && username == phpname) {
+                alert('data is same');  
+                return;
+            }else{
+                var formData = new FormData();
+                formData.append('username', username);
+                formData.append('email', email);
+                formData.append('mobile', mobile);
+                formData.append('age', age);
+                formData.append('user_id', user_id);
+                alert('data is not same');
+
+                fetch('updateProfile.php', {
+                method: 'POST',
+                body: formData
+               }).then(response => response.text())
+               .then(data => {
+                if (data === 'success') {
+                    alert('Profile updated successfully');
+                    document.getElementById('userName').disabled = true;
+                    document.getElementById('userEmail').disabled = true;
+                    document.getElementById('userMobile').disabled = true;
+                    document.getElementById('Age').disabled = true;
+                    document.getElementById('editInfoBtn').style.display = 'inline-block';
+                    document.getElementById('saveInfoBtn').style.display = 'none';
+                } else {
+                    alert('Failed to update profile'+data);
+                }
+            });
+
+            }
+           
+        }   
     </script>
 </body>
 
