@@ -1,10 +1,9 @@
 <?php
+session_start();
+
 include 'phpcon.php';
 include 'mailsend.php';
-
 $oldEmail = $_SESSION['email'];
-
-session_start();
 
 if($conn == false){
     echo "Connection Failed!";
@@ -19,8 +18,19 @@ if($conn == false){
     $updateQuery = "UPDATE users SET user_name = '$username', email = '$email', p_number = '$p_number', age = '$age' WHERE user_id = '$userId'";
     
     if(mysqli_query($conn, $updateQuery)){
+
         $_SESSION['email']=$email;
-        echo "success";
+
+        if($oldEmail != $email){
+            $to = $email;
+            $subject = "Email Change";
+            $message = "This is to inform you that your email has been updated to: $email";
+            $headers = "From:;";
+            mailsend($to, $subject, $message, $headers);
+        }else{
+            echo "success";
+        }
+       
        
     }else{
         echo "Error: " . $updateQuery . "<br>" . mysqli_error($conn);

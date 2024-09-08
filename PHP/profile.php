@@ -15,12 +15,12 @@
     echo '<script>alert(" Not Loggedin");</script>';
      exit;
  }else{
-     echo '<script>alert("Loggedin");</script>';
+    //  echo '<script>alert("Loggedin");</script>';
     
  }
 $email = $_SESSION['email'];
 
-echo '<script>alert("'.$email.'");</script>';
+// echo '<script>alert("'.$email.'");</script>';
 
 // Find the email in the database and return its values
 $query = "SELECT * FROM users WHERE email = '$email'";
@@ -55,6 +55,26 @@ if (isset($_POST['logout'])) {
     exit();
 }
 
+if(isset($_POST['phpemail'])){
+    $email = $_POST['phpemail'];
+    $query = "SELECT * FROM users WHERE email = '$email'";
+    $result = mysqli_query($conn, $query);
+    if ($result) {
+        $row = mysqli_fetch_assoc($result);
+        $membership_plan = isset($row['membership_plan']) ? $row['membership_plan'] : '';
+        // echo'<script>alert("'.$membership_plan.'");</script>';  
+        if ($membership_plan === "null" ) {    
+            echo 'false';
+        } else {
+            echo 'true';
+        }
+        exit;
+       } else {
+
+        echo 'failed';
+        exit;
+    }
+}
 
 ?>
 
@@ -174,8 +194,13 @@ if (isset($_POST['logout'])) {
             margin-left: 20px;
         }
 
-        .plan-expiry {
+        .plan-expiry_1 {
             color: #ff0303;
+            display: none; 
+        }
+        .plan-expiry_2 {
+            color: #ff0303;
+            display: none; 
         }
 
         .class-box {
@@ -418,21 +443,21 @@ if (isset($_POST['logout'])) {
         <div class="main-content">
             <div class="membership-plan">
                 <h2>Membership Plan</h2>
-                <p>Issue Date : 2024/08/22</p>
-                <p>Expires Date : 2024/09/2</p>
-                <p>Type of Plan : monthly basis</p>
-                <p>Payment Status : Verify</p>
-                <button class="change-button">Change Plan</button>
-                <p class="plan-expiry">Plan is expired : within two Weeks</p>
+                <p>Issue Date : not selelct</p>
+                <p>Expires Date : not selelct</p>
+                <p>Type of Plan : not selelct</p>
+                <p>Payment Status : not selelct</p>
+                <button class="change-button" id="chnage_plane">Select Plan</button>
+                <p class="plan-expiry_1">Plan is expired : within two Weeks</p>
             </div>
 
             <div class="instructor-details">
                 <h2>Instructor Details</h2>
-                <p>Instructor Name : </p>
-                <p>Instructor ID : </p>
-                <p>Payment Status : </p>
-                <button class="change-button">Change Instructor</button>
-                <p class="plan-expiry">Plan is expired : within two Weeks</p>
+                <p>Instructor Name : not selelct </p>
+                <p>Instructor ID : not selelct </p>
+                <p>Payment Status : not selelct </p>
+                <button class="change-button" id="Change_Instructor">Change Instructor</button>
+                <p class="plan-expiry_2">Plan is expired : within two Weeks</p>
             </div>
 
             <div class="online-classes">
@@ -592,14 +617,51 @@ if (isset($_POST['logout'])) {
                     document.getElementById('Age').disabled = true;
                     document.getElementById('editInfoBtn').style.display = 'inline-block';
                     document.getElementById('saveInfoBtn').style.display = 'none';
-                } else {
+                } else if(data.includes("Email sent successfully")) {
+                    alert('Profile updated successfully');
+                    document.getElementById('userName').disabled = true;
+                    document.getElementById('userEmail').disabled = true;
+                    document.getElementById('userMobile').disabled = true;
+                    document.getElementById('Age').disabled = true;
+                    document.getElementById('editInfoBtn').style.display = 'inline-block';
+                    document.getElementById('saveInfoBtn').style.display = 'none'; 
+                }else{
                     alert('Failed to update profile'+data);
+                    console.log(data);
                 }
+                
             });
 
             }
            
-        }   
+        } 
+        document.getElementById('chnage_plane').addEventListener('click', function() {
+           window.location.href = "../services.html";
+        });  
+        document.getElementById('Change_Instructor').addEventListener('click', function() {
+            var formData = new FormData();
+            formData.append('phpemail',phpemail);
+            fetch('profile.php', {
+                method: 'POST',
+                body: formData
+            }).then(response => response.text())
+            .then(data => {
+                if (data == "true") {
+                    alert('sucess to update instructor'+data);
+                    // console.log(data);
+                     window.location.href = "../team.html";
+                    
+                } else if(data==='false'){   
+                  
+                    console.log(data);
+                    alert('You cant select the instructor until you select a membership plan');
+                }else{
+                    console.log(data);
+                    alert('Failed to update instructor'+data);
+                }
+                
+            });
+        });
     </script>
 </body>
 

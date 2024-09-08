@@ -177,6 +177,17 @@ window.addEventListener('scroll', function() {
 
 window.onload = function (){
 
+    var element = document.getElementById('pricing_container');
+        
+    if (element) {
+        element.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    } else {
+        console.log('Div element is missing.');
+    }
+
     const isLoggedIn = getSessionWithExpiry("email"); 
 
     let successMsg = '<i class="fa-solid fa-circle-check"></i> session set successfully';
@@ -262,6 +273,7 @@ window.onload = function (){
              console.error('Error message:', error.message); 
          });
 
+       
         // Membership Plan show in index page
 
         // // Class time show in index page
