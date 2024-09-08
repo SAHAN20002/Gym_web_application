@@ -15,7 +15,7 @@ if (!isset($_SESSION['email'])) {
     exit;
 }else{
     echo 'Loggedin';
-    echo '$email';
+    
 }
 
 
