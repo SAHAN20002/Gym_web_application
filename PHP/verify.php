@@ -121,7 +121,7 @@ if (isset($_SESSION['verificationVariable']) && isset($_SESSION['email'])) {
                     mailsend($to, $subject, $message, $headers);
 
                     echo "<script>alert('Email verification status updated successfully');</script>";
-                    header("Location: dashbord.php");
+                    header("Location: profile.php");
                     
                     exit;
                 } else {

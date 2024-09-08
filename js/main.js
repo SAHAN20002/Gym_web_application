@@ -197,13 +197,13 @@ window.onload = function (){
 
         
         if (isLoggedIn !== null) {
-            loginButton.style.backgroundColor = '#F3D700';
+            // loginButton.style.backgroundColor = '#F3D700';
             loginButton.value = '';
             loginButton.classList.add('user-icon');
             loginButton.onclick = function() {
-                window.location.href = 'PHP/dashbord.php'; // Redirect to profile page
+                window.location.href = 'PHP/profile.php'; // Redirect to profile page
             };
-            loginButton.innerHTML = '<img src="img/logo/user_icon.png" alt="User Icon" style="width:20px; height:20px;">'; 
+            loginButton.innerHTML = '<img src="../img/logo/user_icon.png" alt="User Icon" style="width:20px; height:20px;">'; 
         }
 
         

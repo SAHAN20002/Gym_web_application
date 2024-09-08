@@ -32,7 +32,7 @@ document.getElementById('login_form').addEventListener('submit', function(e) {
         alert('Login successful!');
         
         setSessionWithExpiry("email", email, 604800000);
-        window.location.href = 'PHP/dashbord.php';
+        window.location.href = 'PHP/profile.php';
       } else {
         //  alert("Invalid email or password. Please try again" + data);
          document.getElementById('login_form').reset(); // Reset form

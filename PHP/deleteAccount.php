@@ -211,7 +211,7 @@ if ($conn == false) {
      if($verificationCode == null){
         echo'
     <div class="container">
-        <h2>Forgot Password</h2>
+        <h2>Delete Account</h2>
         <form action="deleteAccount.php" method="post" id="email_enter">
             <div class="form-group">
                 

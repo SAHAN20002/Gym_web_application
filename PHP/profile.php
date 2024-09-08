@@ -1,17 +1,60 @@
 <?php
-session_start();
-unset($_SESSION['verificationVariable']);
+ include 'phpcon.php';
+ include 'mailsend.php';
+ 
 
-// if (!isset($_SESSION['email'])) {
-//      //   echo'Notloggedin';
-//     //  echo '<script>localStorage.clear();</script>';
-//     //  echo '<script>window.location.href = "../index.html";</script>';
-//     echo '<script>alert(" Not Loggedin");</script>';
-//      exit;
-// }else{
-//     echo '<script>alert("Loggedin");</script>';
+ session_start();
+ unset($_SESSION['verificationVariable']);
+
+ 
+
+ if (!isset($_SESSION['email'])) {
+      //   echo'Notloggedin';
+       echo '<script>localStorage.clear();</script>';
+       echo '<script>window.location.href = "../index.html";</script>';
+    echo '<script>alert(" Not Loggedin");</script>';
+     exit;
+ }else{
+     echo '<script>alert("Loggedin");</script>';
     
-// }
+ }
+$email = $_SESSION['email'];
+
+echo '<script>alert("'.$email.'");</script>';
+
+// Find the email in the database and return its values
+$query = "SELECT * FROM users WHERE email = '$email'";
+$result = mysqli_query($conn, $query);
+
+if ($result) {
+    $row = mysqli_fetch_assoc($result);
+    // Access the values from the row
+    $name = isset($row['user_name']) ? $row['user_name'] : '';
+    $gender = isset($row['gender']) ? $row['gender'] : '';
+    $nic = isset($row['NIC']) ? $row['NIC'] : '';
+    $mobile = isset($row['p_number']) ? $row['p_number'] : '';
+    $user_id = isset($row['user_id']) ? $row['user_id'] : '';
+    $profile_pic = isset($row['profile_photo']) ? $row['profile_photo'] : '';
+
+    // Update the corresponding HTML elements with the values
+   
+} else {
+    // Handle the case when the email is not found in the database
+    echo 'Email not found in the database';
+}
+  
+if (isset($_POST['logout'])) {
+    
+    $_SESSION = array();
+
+    session_destroy();
+    echo '<script>localStorage.clear();</script>';
+    
+    header("Location: ../index.html");
+    exit();
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -56,6 +99,8 @@ unset($_SESSION['verificationVariable']);
             background-color: #7d7d7d;
             border-radius: 50%;
             margin: 0 auto;
+            background-image: url('../img/logo/user_icon.png');
+            background-size: cover;
         }
 
         .edit-button,
@@ -343,27 +388,27 @@ unset($_SESSION['verificationVariable']);
 <body >
     <div class="profile-container" id="Body">
         <div class="sidebar">
-            <button class="back-button">Back</button>
+            <button class="back-button" id="Home_page">Back</button>
             <div class="profile-pic"></div>
             <br>
             <button class="Edit-picture" onClick="show_P_C_2()" >Edit</button>
 
             <br>
-            <p>User : W.P.S Waruna</p>
+            <?php
+            echo '<p id="name">User : '.$name.'</p>';
+            echo '<p id="Gender">Gender : '.$gender.'</p>';
+            echo '<p id="NIC">NIC : '.$nic.'</p>';
+            echo '<p id="Email">Email : '.$email.'</p>';
+            echo '<p id="M_number">Mobile No : '.$mobile.'</p>';
+            ?>
 
-            <p>Gender : Male</p>
-
-            <p>NIC : xxxxxxxxxxx</p>
-
-            <p>Email : kbdjkdbsbd</p>
-
-            <p>Mobile No : 1111111111</p>
-
-
-            <button class="edit-button">logout</button>
-            <a href="#" class="forget-password">Forget Password?</a>
+            
+            <form method="POST">
+              <input type="submit" class="edit-button" value="Logout" name="logout" id="logoutButton">
+            </form>
+            <a href="passwordchnage.php" class="forget-password">Forget Password?</a>
             <br>
-            <button class="edit-button_2" onClick="functionOne()">Delete Account</button>
+            <button class="edit-button_2" id="delete_button">Delete Account</button>
 
         </div>
 
@@ -421,7 +466,7 @@ unset($_SESSION['verificationVariable']);
         <div class="profile-details">
             <!-- Profile Picture Section -->
             <div class="profile-pic_1">
-                <img id="profileImage" src="default-profile.png" alt="Profile Picture" class="profile-pic-2">
+                <img id="profileImage" src="../img/logo/user_icon.png" alt="Profile Picture" class="profile-pic-2">
                 <input type="file" id="upload" style="display: none;" accept="image/*">
                 <button class="button_In" id="editPhotoBtn" onclick="triggerUpload()">Edit Photo</button>
                 <button class="button_In" id="savePhotoBtn" style="display: none;" onclick="savePhoto()">Save
@@ -430,10 +475,11 @@ unset($_SESSION['verificationVariable']);
 
             <!-- User Details Section -->
             <div class="user-info">
-                <p class="p_I"><strong>User:</strong> <input type="text" id="userName" value="W.P.S Waruna" disabled></p>
-                <p class="p_I"><strong>Email:</strong> <input type="email" id="userEmail" value="kbdjkdbsbd" disabled></p>
-                <p class="p_I"><strong>Mobile No:</strong> <input type="text" id="userMobile" value="1111111111" disabled></p>
-                <p class="p_I"><strong>Age:</strong> <input type="text" id="Age" value="1111111111" disabled></p>
+                <p class="p_I"><strong>User:</strong> <input type="text" id="userName" value="<?php echo $name; ?>" disabled></p>
+                <p class="p_I"><strong>Email:</strong> <input type="email" id="userEmail" value="<?php echo $email; ?>" disabled></p>
+                <p class="p_I"><strong>Mobile No:</strong> <input type="text" id="userMobile" value="<?php echo $mobile; ?>" disabled></p>
+                <p class="p_I"><strong>Age:</strong> <input type="text" id="Age" value="<?php echo $nic; ?>" disabled></p>
+                
                 <button class="button_In" id="editInfoBtn" onclick="editInfo()">Edit Info</button>
                 <button class="button_In" id="saveInfoBtn" style="display: none;" onclick="saveInfo()">Save
                     Info</button>
@@ -441,7 +487,63 @@ unset($_SESSION['verificationVariable']);
         </div>
     </div>
 
-    <script src="../js/profile.js"></script>
+    
+    <script>
+        function show_P_C_2(){
+           document.getElementById("profile_container_2").style.display = "block";
+           document.getElementById("Body").style.filter = "blur(5px)";
+           document.getElementById("profile_container_2").classList.add("animate-show");
+         }
+
+        function goToProfile(){
+           document.getElementById("profile_container_2").style.display = "none";
+           document.getElementById("Body").style.filter = "blur(0px)";
+           document.getElementById("profile_container_2").classList.remove("animate-show");
+}
+        document.getElementById('delete_button').addEventListener('click', function() {
+            var r = confirm("Are you sure you want to delete your account?");
+            if (r == true) {
+                window.location.href = "deleteAccount.php";
+            }
+        });
+        document.getElementById('logoutButton').addEventListener('click', function() {
+               localStorage.clear();
+        });
+
+        document.getElementById('Home_page').addEventListener('click', function() {
+            window.location.href = "../index.html";
+        });
+
+        function editInfo() {
+           document.getElementById('userName').disabled = false;
+           document.getElementById('userEmail').disabled = false;
+           document.getElementById('userMobile').disabled = false;
+           document.getElementById('Age').disabled = false;
+           document.getElementById('editInfoBtn').style.display = 'none';
+           document.getElementById('saveInfoBtn').style.display = 'inline-block';
+        }
+
+        let tempImage = ''; // Store temporary image for profile picture
+
+// Trigger file upload
+function triggerUpload() {
+    document.getElementById('upload').click();
+}
+
+// Handle image upload and preview
+document.getElementById('upload').addEventListener('change', function() {
+    const file = this.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            tempImage = e.target.result;
+            document.getElementById('profileImage').src = tempImage;
+            document.getElementById('savePhotoBtn').style.display = 'inline-block';
+        };
+        reader.readAsDataURL(file);
+    }
+});
+    </script>
 </body>
 
 </html>
