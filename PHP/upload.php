@@ -1,11 +1,13 @@
 <?php
+
 require 'C:/wamp64/www/sahan/gym-main/vendor/autoload.php';
-// Load Composer's autoloader
 
 function uploadToGoogleDrive($filePath) {
     // Create a new Google client
     $client = new Google_Client();
-    $client->setAuthConfig('client_secret_823479849184-mh1qt1hhp0anif9gf1m9uuioggs35v24.apps.googleusercontent.com.json');
+    $client->setClientId('823479849184-mh1qt1hhp0anif9gf1m9uuioggs35v24.apps.googleusercontent.com');
+    $client->setClientSecret('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');
+    $client->setRedirectUri('http://localhost/oauth2callback');
     $client->addScope(Google_Service_Drive::DRIVE_FILE);
 
     // Load previously authorized token from a file if exists, otherwise get a new one
@@ -68,8 +70,7 @@ function uploadToGoogleDrive($filePath) {
 }
 
 // Usage example:
-$filePath = 'C:\\Users\\sahan\\Desktop\\CS photo\\sahan.jpg'; // Replace with the path to your file
+$filePath = 'path/to/your/image.jpg'; // Replace with the path to your file
 $link = uploadToGoogleDrive($filePath);
-echo "File uploaded successfully! Shareable link: " . $link;
 echo "File uploaded successfully! Shareable link: " . $link;
 ?>

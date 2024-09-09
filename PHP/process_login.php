@@ -26,6 +26,7 @@
         echo 'Login Successful';
         $row = $result->fetch_assoc();
         $_SESSION['email'] = $row['email'];
+        $_SESSION['userId'] = $row['user_id'];
         
     }else{
         $_SESSION['login_error'] = 'Invalid email or password';

@@ -19,11 +19,12 @@
     
  }
 $email = $_SESSION['email'];
+$user_id = $_SESSION['userId'];
 
-// echo '<script>alert("'.$email.'");</script>';
+//  echo '<script>alert("'.$user_id.'");</script>';
 
 // Find the email in the database and return its values
-$query = "SELECT * FROM users WHERE email = '$email'";
+$query = "SELECT * FROM users WHERE user_id = '$user_id'";
 $result = mysqli_query($conn, $query);
 
 if ($result) {
@@ -61,9 +62,9 @@ if(isset($_POST['phpemail'])){
     $result = mysqli_query($conn, $query);
     if ($result) {
         $row = mysqli_fetch_assoc($result);
-        $membership_plan = isset($row['membership_plan']) ? $row['membership_plan'] : '';
-        // echo'<script>alert("'.$membership_plan.'");</script>';  
-        if ($membership_plan === "null" ) {    
+        $membership_status = isset($row['membership_status']) ? $row['membership_status'] : '';
+        //  echo'<script>alert("'.$membership_status.'");</script>';  
+        if ($membership_status === "0" ) {    
             echo 'false';
         } else {
             echo 'true';
