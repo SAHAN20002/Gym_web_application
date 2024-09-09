@@ -1,76 +1,64 @@
 <?php
+require 'C:/wamp64/www/sahan/gym-main/vendor/autoload.php'; // Assuming you are using Composer for Google Client Library
 
-require 'C:/wamp64/www/sahan/gym-main/vendor/autoload.php';
+session_start();
 
-function uploadToGoogleDrive($filePath) {
-    // Create a new Google client
-    $client = new Google_Client();
-    $client->setClientId('823479849184-mh1qt1hhp0anif9gf1m9uuioggs35v24.apps.googleusercontent.com');
-    $client->setClientSecret('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');
-    $client->setRedirectUri('http://localhost/oauth2callback');
-    $client->addScope(Google_Service_Drive::DRIVE_FILE);
+$client = new Google_Client();
+$client->setAuthConfig('C:\wamp64\www\sahan\gym-main\PHP\client_secret_823479849184-mh1qt1hhp0anif9gf1m9uuioggs35v24.apps.googleusercontent.com.json');
+$client->addScope(Google_Service_Drive::DRIVE_FILE);
 
-    // Load previously authorized token from a file if exists, otherwise get a new one
-    if (file_exists('token.json')) {
-        $accessToken = json_decode(file_get_contents('token.json'), true);
-        $client->setAccessToken($accessToken);
-        
-        // Refresh the token if expired
-        if ($client->isAccessTokenExpired()) {
-            $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
-            file_put_contents('token.json', json_encode($client->getAccessToken()));
-        }
-    } else {
-        // Request authorization from the user
-        $authUrl = $client->createAuthUrl();
-        echo "Open the following link in your browser:\n$authUrl\n";
-        echo "Enter the authorization code:\n";
-        $authCode = trim(fgets(STDIN));
+if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
+    $client->setAccessToken($_SESSION['access_token']);
 
-        // Exchange authorization code for an access token
-        $accessToken = $client->fetchAccessTokenWithAuthCode($authCode);
-        $client->setAccessToken($accessToken);
-
-        // Save the token for future use
-        if (!file_exists(dirname('token.json'))) {
-            mkdir(dirname('token.json'), 0700, true);
-        }
-        file_put_contents('token.json', json_encode($client->getAccessToken()));
+    if ($client->isAccessTokenExpired()) {
+        // If access token is expired, refresh it
+        unset($_SESSION['access_token']);
+        header('Location: oauth2callback.php');
+        exit;
     }
 
-    // Set up Google Drive service
+    // Create Google Drive Service
     $service = new Google_Service_Drive($client);
 
-    // Create file metadata
-    $fileMetadata = new Google_Service_Drive_DriveFile(array(
-        'name' => basename($filePath)
-    ));
+    // File upload logic
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
+        $file = new Google_Service_Drive_DriveFile();
+        $file->setName($_FILES['file']['name']);
 
-    // Upload the file
-    $content = file_get_contents($filePath);
-    $file = $service->files->create($fileMetadata, array(
-        'data' => $content,
-        'mimeType' => mime_content_type($filePath),
-        'uploadType' => 'multipart',
-        'fields' => 'id'
-    ));
+        $content = file_get_contents($_FILES['file']['tmp_name']);
+        
+        // Upload file to Google Drive
+        $uploadedFile = $service->files->create($file, [
+            'data' => $content,
+            'mimeType' => $_FILES['file']['type'],
+            'uploadType' => 'multipart',
+            'fields' => 'id'
+        ]);
 
-    // Get the file ID
-    $fileId = $file->id;
+        // Get the file ID and create a link to the file
+        $fileId = $uploadedFile->id;
+        $fileLink = "https://drive.google.com/file/d/$fileId/view";
 
-    // Make the file public
-    $permission = new Google_Service_Drive_Permission([
-        'type' => 'anyone',
-        'role' => 'reader'
-    ]);
-    $service->permissions->create($fileId, $permission);
-
-    // Return shareable link
-    return "https://drive.google.com/uc?id=" . $fileId;
+        echo "File uploaded successfully! <a href='$fileLink'>View File</a>";
+    }
+} else {
+    // If the user hasn't authorized the app, redirect them to the authorization flow
+    header('Location: oauth2callback.php');
+    exit;
 }
-
-// Usage example:
-$filePath = 'path/to/your/image.jpg'; // Replace with the path to your file
-$link = uploadToGoogleDrive($filePath);
-echo "File uploaded successfully! Shareable link: " . $link;
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload File to Google Drive</title>
+</head>
+<body>
+    <h1>Upload a File to Google Drive</h1>
+    <form action="upload.php" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" required>
+        <button type="submit">Upload File</button>
+    </form>
+</body>
+</html>
