@@ -44,6 +44,29 @@ if ($result) {
     // Handle the case when the email is not found in the database
     echo 'Email not found in the database';
 }
+
+$query_2 = "SELECT * FROM membership_user WHERE user_id = '$user_id'";
+$result_2 = mysqli_query($conn, $query_2);
+
+if($result_2){
+    $row_2 = mysqli_fetch_assoc($result_2);
+   
+    $start_date = isset($row_2['start_date']) ? $row_2['start_date'] : '';
+    $end_date = isset($row_2['end_date']) ? $row_2['end_date'] : '';
+    $cost = isset($row_2['cost']) ? $row_2['cost'] : '';
+    $membership_type = isset($row_2['membership_type']) ? $row_2['membership_type'] : '';
+    
+   
+    
+    // echo'<script>alert("'.$plan_expiry_date.'");</script>';
+    // echo'<script>alert("'.$instructor_expiry_date.'");</script>';
+    // echo'<script>alert("'.$plan_expiry.'");</script>';
+    // echo'<script>alert("'.$instructor_expiry.'");</script>';
+    // echo'<script>alert("'.$plan_expiry_date.'");</script>';
+    // echo'<script
+}else{
+    echo 'Email not found in the database';
+}
   
 if (isset($_POST['logout'])) {
     
@@ -444,10 +467,13 @@ if(isset($_POST['phpemail'])){
         <div class="main-content">
             <div class="membership-plan">
                 <h2>Membership Plan</h2>
-                <p>Issue Date : not selelct</p>
-                <p>Expires Date : not selelct</p>
-                <p>Type of Plan : not selelct</p>
-                <p>Payment Status : not selelct</p>
+                <?php
+                echo '<p>Issue Date : '.$start_date.'</p>';
+                echo '<p>Expires Date : '.$end_date.'</p>';
+                echo '<p>Type of Plan : '.$membership_type.'</p>';
+                echo '<p>Cost : '.$cost.'</p>';
+                ?>
+                <p>Payment Status : null</p>
                 <button class="change-button" id="chnage_plane">Select Plan</button>
                 <p class="plan-expiry_1">Plan is expired : within two Weeks</p>
             </div>

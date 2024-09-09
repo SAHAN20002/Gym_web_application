@@ -1,5 +1,7 @@
 <?php
 include 'phpcon.php';
+ 
+
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
@@ -19,6 +21,10 @@ if ($result->num_rows > 0) {
 } else {
     echo json_encode([]);
 }
+
+
+
+
 
 $conn->close();
 ?>
