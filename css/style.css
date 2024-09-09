@@ -151,6 +151,7 @@ ol {
 	letter-spacing: 1px;
 	text-transform: uppercase;
 	font-weight: 700;
+	cursor: pointer;
 }
 
 
@@ -794,6 +795,7 @@ ol {
 
 .ps-item:hover .primary-btn.pricing-btn {
 	background: #f3d700;
+	cursor: pointer;
 }
 
 .ps-item:hover .thumb-icon {
@@ -851,6 +853,7 @@ ol {
 	-webkit-transform: skewY(4deg);
 	-ms-transform: skewY(4deg);
 	transform: skewY(4deg);
+	cursor: pointer;
 }
 
 .ps-item .thumb-icon {

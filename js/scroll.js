@@ -10,3 +10,15 @@ window.onload = function() {
         console.log('Div element is missing.');
     }
 };
+
+document.getElementById('Week_Plane_P').addEventListener('click', function() {
+    alert('Pricing clicked');
+});
+
+document.getElementById('Month_Plane_P').addEventListener('click', function() {
+    alert('Pricing clicked');
+});
+
+document.getElementById('Year_Plane_P').addEventListener('click', function() {
+    alert('Pricing clicked');
+});
