@@ -12,6 +12,7 @@
  $cost = "Not selected";
  $membership_type = "Not selected";
  $displayButton = "none";
+ $displayRenewPaymentButton = "none";
  $text = "Select";
  $date = date('Y-m-d');
 
@@ -69,12 +70,13 @@ if ($result) {
 
                     $paymnet_status = " expired";
                     $displayButton = "none";
+                    $displayRenewPaymentButton = "show";
                     $text = "Select"; 
                     $update_query = "UPDATE users SET payment_slip = 'null', membership_status = '0' WHERE user_id = '$user_id'";
                     mysqli_query($conn, $update_query);
 
-                    $delete_membership_query = "DELETE FROM membership_user WHERE user_id = '$user_id'";
-                    mysqli_query($conn, $delete_membership_query);
+                    // $delete_membership_query = "DELETE FROM membership_user WHERE user_id = '$user_id'";
+                    // mysqli_query($conn, $delete_membership_query);
 
                     $to = $email;
                     $subject = "Membership expired";
@@ -237,6 +239,9 @@ if(isset($_POST['phpemail'])){
         }
         .delete_plane{
             display : <?php echo $displayButton; ?>;
+        }
+        .renew_plane{
+            display : <?php echo $displayRenewPaymentButton; ?>;
         }
         .back-button {
             margin-left: -200px;
@@ -497,6 +502,25 @@ if(isset($_POST['phpemail'])){
         .p_I{
             color: #000000;
         }
+        .payment_container_3 {
+            background-color: #f7f7f4ad;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px #0000001a;
+            max-width: 600px;
+            width: 100%;
+            margin-top: -850px;
+            position: absolute;
+            margin-left: 480px;
+            z-index: 1;
+            display: none; 
+            /* border: 1px solid red; */
+        }
+        .payment_text{
+            color: #000000;
+            font-size: 20px;
+            font-weight: bold;
+        }   
         /* pesronal infomation div */
     </style>
 
@@ -545,6 +569,7 @@ if(isset($_POST['phpemail'])){
                 
                 <button class="change-button" id="chnage_plane"><?php echo $text ?> Plan</button>
                 <button class="edit-button_2 delete_plane" id="delete_plane">Delete Plan</button>
+                <button class="change-button renew_plane" id="renew_plane">Renew Plan</button>
                 <p class="plan-expiry_1">Plan is expired : within two Weeks</p>
             </div>
 
@@ -609,6 +634,24 @@ if(isset($_POST['phpemail'])){
                 <button class="button_In" id="editInfoBtn" onclick="editInfo()">Edit Info</button>
                 <button class="button_In" id="saveInfoBtn" style="display: none;" onclick="saveInfo()">Save
                     Info</button>
+            </div>
+        </div>
+    </div>
+    <div class="payment_container_3" id="payment_container_3">
+        <button class="back-button_1" onclick="goToProfile()">Back</button>
+
+        <div class="profile-details">
+            
+            <div class="user-info">
+            <?php    
+            echo '<p class="payment_text">Type of Plan : '.$membership_type.'</p>';
+            echo '<p class="payment_text">Cost : '.$cost.'</p>';
+            ?>
+            <h4 class="payment_text" style="color:red;"> Upload your payment slip in Google Drive, make sure it is public, get the link, and paste it here </h4>   
+            <p class="p_I"><label>payment photo link:</label> <input type="text" id="payment_photo_link" placeholder="https://drive.google.com/file/d/18SehmWYji7slJ5YSxRFkHVF_1A1xFZ0Q/view?usp=sharing"></p>
+               
+              
+                <button class="button_In"  onclick="paymnet()">submit</button>
             </div>
         </div>
     </div>
@@ -766,6 +809,39 @@ if(isset($_POST['phpemail'])){
                 
             });
         });
+        document.getElementById('renew_plane').addEventListener('click', function() {
+            document.getElementById('payment_container_3').style.display = "block";
+            document.getElementById("Body").style.filter = "blur(5px)";
+            document.getElementById("payment_container_3").classList.add("animate-show");
+            
+        });
+
+        function paymnet(){
+            let payment_photo_link = document.getElementById('payment_photo_link').value;
+            if (payment_photo_link === '') {
+                alert('Please fill all the fields');
+                return;
+            }
+            var formData = new FormData();
+            formData.append('payment_photo_link', payment_photo_link);
+            
+            fetch('renewPayment.php', {
+                method: 'POST',
+                body: formData
+            }).then(response => response.text())
+            .then(data => {
+                if (data === 'Email sent successfully.') {
+                    alert('Payment Renewed');
+                    document.getElementById('payment_container_3').style.display = "none";
+                    document.getElementById("Body").style.filter = "blur(0px)";
+                    document.getElementById("payment_container_3").classList.remove("animate-show");
+                    location.reload();
+                } else {
+                    alert('Failed to upload payment slip'+data);
+                    console.log(data);
+                }
+            });
+        }
     </script>
 </body>
 

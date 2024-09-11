@@ -38,6 +38,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $update_query = "UPDATE users SET payment_slip = 'null', membership_status = '0' WHERE user_id = '$userId'";
         mysqli_query($conn, $update_query);
 
+        $delete_membership_query = "DELETE FROM membership_user WHERE user_id = '$userId'";
+        mysqli_query($conn, $delete_membership_query);
+
                 $to = $email;
                 $subject = "Membership deleted";
                 $message = "We wanted to let you know that your Fitnes Zone membership was deleted. If you did not perform this action, please contact us.";
