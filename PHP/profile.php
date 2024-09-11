@@ -5,8 +5,12 @@
 
  session_start();
  unset($_SESSION['verificationVariable']);
-
  
+ $paymnet_status = "Not paid";
+ $start_date = "Not selected";
+ $end_date = "Not selected";
+ $cost = "Not selected";
+ $membership_type = "Not selected";
 
  if (!isset($_SESSION['email'])) {
       //   echo'Notloggedin';
@@ -37,7 +41,20 @@ if ($result) {
     $user_id = isset($row['user_id']) ? $row['user_id'] : '';
     $age = isset($row['age']) ? $row['age'] : '';
     $profile_pic = isset($row['profile_photo']) ? $row['profile_photo'] : '';
+    $paymentSlip = isset($row['payment_slip']) ? $row['payment_slip'] : '';
+    $membership_status = isset($row['membership_status']) ? $row['membership_status'] : '';
+    
+    if($paymentSlip != 'null'){
 
+        if($membership_status === "1"){
+            $paymnet_status = " success";
+        }else{
+            $paymnet_status = " pending";
+        }
+    }else{
+
+        $paymnet_status = "Not paid";
+    }
     // Update the corresponding HTML elements with the values
    
 } else {
@@ -99,6 +116,7 @@ if(isset($_POST['phpemail'])){
         exit;
     }
 }
+
 
 ?>
 
@@ -467,14 +485,17 @@ if(isset($_POST['phpemail'])){
         <div class="main-content">
             <div class="membership-plan">
                 <h2>Membership Plan</h2>
+
                 <?php
                 echo '<p>Issue Date : '.$start_date.'</p>';
                 echo '<p>Expires Date : '.$end_date.'</p>';
                 echo '<p>Type of Plan : '.$membership_type.'</p>';
                 echo '<p>Cost : '.$cost.'</p>';
+                echo '<p>Payment Status : '.$paymnet_status.'</p>';
                 ?>
-                <p>Payment Status : null</p>
+                
                 <button class="change-button" id="chnage_plane">Select Plan</button>
+                <button class="edit-button_2" id="delete_plane">Delete Plan</button>
                 <p class="plan-expiry_1">Plan is expired : within two Weeks</p>
             </div>
 
@@ -484,6 +505,7 @@ if(isset($_POST['phpemail'])){
                 <p>Instructor ID : not selelct </p>
                 <p>Payment Status : not selelct </p>
                 <button class="change-button" id="Change_Instructor">Change Instructor</button>
+                <button class="edit-button_2" id="delete_plane">Delete Instructor</button>
                 <p class="plan-expiry_2">Plan is expired : within two Weeks</p>
             </div>
 
@@ -681,7 +703,7 @@ if(isset($_POST['phpemail'])){
                 } else if(data==='false'){   
                   
                     console.log(data);
-                    alert('You cant select the instructor until you select a membership plan');
+                    alert('You cant select the instructor until you membership plan is success');
                 }else{
                     console.log(data);
                     alert('Failed to update instructor'+data);
