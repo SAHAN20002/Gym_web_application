@@ -11,6 +11,11 @@
  $end_date = "Not selected";
  $cost = "Not selected";
  $membership_type = "Not selected";
+ $displayButton = "none";
+ $text = "Select";
+ $date = date('Y-m-d');
+
+//  echo'<script>alert("'.$date.'");</script>';
 
  if (!isset($_SESSION['email'])) {
       //   echo'Notloggedin';
@@ -47,10 +52,48 @@ if ($result) {
     if($paymentSlip != 'null'){
 
         if($membership_status === "1"){
-            $paymnet_status = " success";
+            // $paymnet_status = " success";
+            // $displayButton = "show";
+            // $text = "View";
+
+            $query = "SELECT * FROM membership_user WHERE user_id = '$user_id'";
+            $result = mysqli_query($conn, $query);
+            
+            if($result){
+                $row = mysqli_fetch_assoc($result);
+               
+                $end_date = isset($row['end_date']) ? $row['end_date'] : '';
+                $membership_type = isset($row['membership_type']) ? $row['membership_type'] : '';
+
+                if($end_date < $date){
+
+                    $paymnet_status = " expired";
+                    $displayButton = "none";
+                    $text = "Select"; 
+                    $update_query = "UPDATE users SET payment_slip = 'null', membership_status = '0' WHERE user_id = '$user_id'";
+                    mysqli_query($conn, $update_query);
+
+                    $delete_membership_query = "DELETE FROM membership_user WHERE user_id = '$user_id'";
+                    mysqli_query($conn, $delete_membership_query);
+
+                    $to = $email;
+                    $subject = "Membership expired";
+                    $message = "We wanted to let you know that your Fitnes Zone membership was expired. Please make a payment to renew your membership.";
+                    $headers = "From: your_email@example.com";
+                    mailsend($to, $subject, $message, $headers);
+                    
+                }else{
+                    $paymnet_status = " success";
+                    $displayButton = "show";
+                    $text = "View";
+                }                    
+            }
+
         }else{
             $paymnet_status = " pending";
         }
+
+
     }else{
 
         $paymnet_status = "Not paid";
@@ -83,6 +126,10 @@ if($result_2){
     // echo'<script
 }else{
     echo 'Email not found in the database';
+    $start_date = "Not selected";
+    $end_date = "Not selected";
+    $cost = "Not selected";
+    $membership_type = "Not selected";
 }
   
 if (isset($_POST['logout'])) {
@@ -188,7 +235,9 @@ if(isset($_POST['phpemail'])){
             font-weight: bold;
             border-radius: 5px;
         }
-
+        .delete_plane{
+            display : <?php echo $displayButton; ?>;
+        }
         .back-button {
             margin-left: -200px;
             background-color: #cbb600;
@@ -464,12 +513,12 @@ if(isset($_POST['phpemail'])){
             <br>
             <?php
              echo '<p id="UID">User ID : '.$user_id.'</p>';
-            echo '<p id="name">User : '.$name.'</p>';
+            echo '<p id="name">User Name : '.$name.'</p>';
             echo '<p id="Gender">Gender : '.$gender.'</p>';
             echo '<p id="NIC">NIC : '.$nic.'</p>';
             echo '<p id="age">AGE : '.$age.'</p>';
             echo '<p id="Email">Email : '.$email.'</p>';
-            echo '<p id="M_number">Mobile No : '.$mobile.'</p>';
+            echo '<p id="M_number">Mobile No :+94 '.$mobile.'</p>';
             ?>
 
             
@@ -494,8 +543,8 @@ if(isset($_POST['phpemail'])){
                 echo '<p>Payment Status : '.$paymnet_status.'</p>';
                 ?>
                 
-                <button class="change-button" id="chnage_plane">Select Plan</button>
-                <button class="edit-button_2" id="delete_plane">Delete Plan</button>
+                <button class="change-button" id="chnage_plane"><?php echo $text ?> Plan</button>
+                <button class="edit-button_2 delete_plane" id="delete_plane">Delete Plan</button>
                 <p class="plan-expiry_1">Plan is expired : within two Weeks</p>
             </div>
 
@@ -505,7 +554,7 @@ if(isset($_POST['phpemail'])){
                 <p>Instructor ID : not selelct </p>
                 <p>Payment Status : not selelct </p>
                 <button class="change-button" id="Change_Instructor">Change Instructor</button>
-                <button class="edit-button_2" id="delete_plane">Delete Instructor</button>
+                <button class="edit-button_2 chnage_Instructor" id="delete_Instructor">Delete Instructor</button>
                 <p class="plan-expiry_2">Plan is expired : within two Weeks</p>
             </div>
 
@@ -589,6 +638,12 @@ if(isset($_POST['phpemail'])){
             var r = confirm("Are you sure you want to delete your account?");
             if (r == true) {
                 window.location.href = "deleteAccount.php";
+            }
+        });
+        document.getElementById('delete_plane').addEventListener('click', function() {
+            var r = confirm("Are you sure you want to delete your Plan becourse you payment is not refundable");
+            if (r == true) {
+                window.location.href = "deletePlane.php";
             }
         });
         document.getElementById('logoutButton').addEventListener('click', function() {

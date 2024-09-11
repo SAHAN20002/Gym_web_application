@@ -1,9 +1,13 @@
 <?php
 include 'phpcon.php';
+include 'mailsend.php';
 
 $cookie_lifetime = 7 * 24 * 60 * 60; // 1 week
 session_start();
 $user_id = null;
+$email = null;
+
+$email = $_SESSION['email'];    
 
 if(isset($_SESSION['userId'])!= null){
 
@@ -17,14 +21,14 @@ if(isset($_SESSION['userId'])!= null){
     $date = isset($_POST['date']) ? $_POST['date'] : null;
     $expiry_date = isset($_POST['expireddate']) ? $_POST['expireddate'] : null;
 
-    $query = "SELECT * FROM membership_user WHERE user_id = ? AND membership_id = ?";
+    $query = "SELECT * FROM membership_user WHERE user_id = ?";
     $stmt_check = $conn->prepare($query);
-    $stmt_check->bind_param("ss", $user_id, $plan_id);
+    $stmt_check->bind_param("s", $user_id);
     $stmt_check->execute();
     $result = $stmt_check->get_result();
 
     if ($result->num_rows > 0) {
-        echo "User already has this membership.";
+        echo "You already have membership.";
         exit();
     }
     
@@ -32,6 +36,13 @@ if(isset($_SESSION['userId'])!= null){
     $stmt->bind_param("ssssss", $user_id, $plan_id, $date, $expiry_date , $price,$plane_Name);
  
     if ($stmt->execute()) {
+
+        $to = $email;
+        $subject = "Membership purchased";
+        $message = "We wanted to let you successfully purchased a membership.wait until If  the admin approve your membership. ";
+        $headers = "From: your_email@example.com";
+        mailsend($to, $subject, $message, $headers);
+
         echo "New record created successfully";
         exit();
     } else {

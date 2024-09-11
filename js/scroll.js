@@ -52,7 +52,7 @@ document.getElementById('Week_Plane_P').addEventListener('click', function() {
             }).then(function(data) {
                 if(data.includes('New record created successfully')){
                     alert('Plan added successfully'+ data);
-                    
+                    window.location.href = 'PHP/profile.php';
                 } else {
                     alert('Plan not added '+data);    
                 }
