@@ -12,7 +12,7 @@
  $cost = "Not selected";
  $membership_type = "Not selected";
  $displayButton = "none";
- $displayRenewPaymentButton = "none";
+ 
  $text = "Select";
  $date = date('Y-m-d');
 
@@ -51,6 +51,8 @@ if ($result) {
     $membership_status = isset($row['membership_status']) ? $row['membership_status'] : '';
     
     if($paymentSlip != 'null'){
+        
+        $displayRenewPaymentButton = "none";
 
         if($membership_status === "1"){
             // $paymnet_status = " success";
@@ -88,6 +90,7 @@ if ($result) {
                     $paymnet_status = " success";
                     $displayButton = "show";
                     $text = "View";
+                    $displayRenewPaymentButton = "none";
                 }                    
             }
 

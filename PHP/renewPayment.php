@@ -12,18 +12,22 @@ $user_id = $_SESSION['userId'];
 $date = date("Y-m-d");
 
 if(isset($_POST['payment_photo_link'])){
-    $payment = $_POST['payment_photo_link'];
-    $sql = "UPDATE users SET payment_slip = '$payment' WHERE user_id = '$user_id'";
-    $result = $conn->query($sql);
 
+    $payment = $_POST['payment_photo_link'];
+
+    
     $sql_plan = "SELECT membership_type FROM membership_user WHERE user_id = '$user_id'";
     $result = $conn->query($sql_plan);
 
     if ($result->num_rows > 0) {
+        
+        $sql = "UPDATE users SET payment_slip = '$payment' WHERE user_id = '$user_id'";
+        $result_1 = $conn->query($sql);
+
         $row = $result->fetch_assoc();
         $plan_type = $row['membership_type'];
 
-        if($plan_type == "week"){
+        if($plan_type == "Week"){
             $expiry_date = date('Y-m-d', strtotime($date. ' + 7 days'));
         } else if($plan_type == "Month"){
             $expiry_date = date('Y-m-d', strtotime($date. ' + 30 days'));
