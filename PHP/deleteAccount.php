@@ -13,6 +13,7 @@ if ($conn == false) {
 
     if(isset($_POST['email'])){
         $email_user = $_POST['email'];
+        $user_id = $_SESSION['userId'];
         if($email_user == $email){
             $verificationCode = mt_rand(1000, 9999);
             $to = $email;
@@ -37,7 +38,30 @@ if ($conn == false) {
         $verificationCode_user = $_POST['verificationCode'];
         $verificationCode = $_SESSION['verificationCode'];
         if($verificationCode_user == $verificationCode){
+
+            // Check if the user has any memberships
+            // $sql_check_membership = "SELECT * FROM membership_user WHERE user_id = '$user_id'";
+            // $result = $conn->query($sql_check_membership);
+
+            // if ($result->num_rows > 0) {
+            //     // Delete memberships if they exist
+            //     $sql_delete_Me = "DELETE FROM membership_user WHERE user_id = '$user_id'";
+            //     $conn->query($sql_delete_Me);
+            // }
+
+            // $sql_check_instuctor = "SELECT * FROM instructor_user WHERE user_Id = '$user_id'";
+            // $result = $conn->query($sql_check_instuctor);
+            
+            // if ($result->num_rows > 0) {
+            //     // Delete instructor if they exist
+            //     $sql_delete_In = "DELETE FROM instructor_user WHERE user_Id = '$user_id'";
+            //     $conn->query($sql_delete_In);
+            // }
+
+            
+
             $sql = "DELETE FROM users WHERE email = '$email'";
+
             if($conn->query($sql)){
 
                 $to = $email;

@@ -285,7 +285,7 @@ window.onload = function (){
              console.error('Error:', error);
              console.error('Error message:', error.message); 
          });
-
+// shama part
          fetch('PHP/I_show.php') 
          .then(response => {
              if (!response.ok) {
@@ -326,7 +326,8 @@ window.onload = function (){
              console.error('Error:', error);
              console.error('Error message:', error.message); 
          });
-       
+         
+    // shama part   
         // Membership Plan show in index page
 
         // // Class time show in index page

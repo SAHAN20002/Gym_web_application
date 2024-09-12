@@ -626,14 +626,15 @@ if(isset($_POST['phpemail'])){
                   if ($result->num_rows > 0) {
                      while($row = $result->fetch_assoc()) {
                           echo '
+                          
                            <div class="class-box">
                            <img src="../gym/profile/online.jpg" alt="Class '.$row["Topic"].'"> 
                            <h5>Class Topic: ' . $row["Topic"] . '</h5>
                            <h5>Instructor: ' . $row["Instructor_name"] . '</h5>
                            <h5>Date: ' . $row["date"] . '</h5>
                            <h5>Time: ' . $row["Time"] . '</h5>
-                          <h5><a href="' . $row["Link"] . '" target="_blank">Join Class</a></h5>
-                        </div>
+                           <h5><a href="' . $row["Link"] . '" target="_blank">Join Class</a></h5>
+                          </div>
                        ';
                       }
                    } else {
