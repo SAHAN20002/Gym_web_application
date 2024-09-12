@@ -188,6 +188,19 @@ window.onload = function (){
         console.log('Div element is missing.');
     }
 
+    var element_2 = document.getElementById('Team_Section');
+        
+    if (element_2) {
+        element_2.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    } else {
+        console.log('Div element is missing.');
+    }
+
+
+
     const isLoggedIn = getSessionWithExpiry("email"); 
 
     let successMsg = '<i class="fa-solid fa-circle-check"></i> session set successfully';
@@ -273,6 +286,46 @@ window.onload = function (){
              console.error('Error message:', error.message); 
          });
 
+         fetch('PHP/I_show.php') 
+         .then(response => {
+             if (!response.ok) {
+                 throw new Error('Network response was not ok');
+             }
+             return response.json();
+         })
+         .then(data => {
+             if(Array.isArray(data)) {
+            for(let i=0;i<data.length;i++){
+                
+                if(data[i].Instructor_Id === "IN001"){
+                    document.getElementById("In_name_1").textContent = data[i].Name;
+                    document.getElementById("Price_1").textContent = data[i].price;
+                    document.getElementById("In_Postion_1").textContent = data[i].description;
+                    document.getElementById("In_Id_1").textContent = data[i].Instructor_Id;
+                }
+                if(data[i].Instructor_Id === "IN002"){
+                    document.getElementById("In_name_2").textContent = data[i].Name;
+                    document.getElementById("Price_2").textContent = data[i].price;
+                    document.getElementById("In_Postion_2").textContent = data[i].description;
+                    document.getElementById("In_Id_2").textContent = data[i].Instructor_Id;
+                }
+                if(data[i].Instructor_Id === "IN003"){
+                    document.getElementById("In_name_3").textContent = data[i].Name;
+                    document.getElementById("Price_3").textContent = data[i].price;
+                    document.getElementById("In_Postion_3").textContent = data[i].description;
+                    document.getElementById("In_Id_3").textContent = data[i].Instructor_Id;
+                }
+              }
+             }else{
+                console.log('No data found');
+             }
+                              
+                   console.log(data);  
+          })
+         .catch(error => {
+             console.error('Error:', error);
+             console.error('Error message:', error.message); 
+         });
        
         // Membership Plan show in index page
 

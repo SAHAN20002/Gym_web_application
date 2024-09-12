@@ -310,16 +310,20 @@ if(isset($_POST['phpemail'])){
 
         .online-classes {
             display: flex;
+            align-items: center;
+            justify-content: center;
+            
             justify-content: space-between;
-            gap: 10px;
+            gap: 5px;
             flex-wrap: nowrap;
             overflow-x: auto;
-            padding: 80px 0;
+            
         }
 
         .class-box {
             flex-shrink: 0;
             width: 200px;
+            height: 350px;
             text-align: center;
             border: 2px solid #ccc;
             border-radius: 10px;
@@ -585,27 +589,33 @@ if(isset($_POST['phpemail'])){
 
             <div class="online-classes">
                 <h2>Online Classes</h2>
-                <div class="class-box">
-                    <a href="#" target="_blank">
-                        <img src="../gym/profile/sumba.jpg" alt="Class 1">
-                        <p class="class-caption">Sumba Class</p> <!-- Caption added here -->
-                        <button>Go to Class 1</button>
-                    </a>
-                </div>
-                <div class="class-box">
-                    <a href="#" target="_blank">
-                        <img src="../gym/profile/online.jpg" alt="Class 2">
-                        <p class="class-caption">Online Fitness</p> <!-- Caption added here -->
-                        <button>Go to Class 2</button>
-                    </a>
-                </div>
-                <div class="class-box">
-                    <a href="#" target="_blank">
-                        <img src="../gym/profile/yoga.jpg" alt="Class 3">
-                        <p class="class-caption">Yoga Classsadfasfdfadsafedfef</p> <!-- Caption added here -->
-                        <button>Go to Class 3</button>
-                    </a>
-                </div>
+                
+                <?php
+
+                    $sql = "SELECT * FROM zoom_clz";
+                    $result = $conn->query($sql);
+
+
+                  if ($result->num_rows > 0) {
+                     while($row = $result->fetch_assoc()) {
+                          echo '
+                           <div class="class-box">
+                           <img src="../gym/profile/online.jpg" alt="Class '.$row["Topic"].'"> 
+                           <h5>Class Topic: ' . $row["Topic"] . '</h5>
+                           <h5>Instructor: ' . $row["Instructor_name"] . '</h5>
+                           <h5>Date: ' . $row["date"] . '</h5>
+                           <h5>Time: ' . $row["Time"] . '</h5>
+                          <h5><a href="' . $row["Link"] . '" target="_blank">Join Class</a></h5>
+                        </div>
+                       ';
+                      }
+                   } else {
+                      echo "No classes found.";
+                    }
+
+                  $conn->close();
+                ?>
+       
             </div>
 
 
