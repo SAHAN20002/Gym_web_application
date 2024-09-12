@@ -12,6 +12,14 @@ window.onload = function() {
 };
 
 document.getElementById('Week_Plane_P').addEventListener('click', function() {
+  
+ let paymnet = document.getElementById('Week_payamnt').value;
+
+ if(paymnet == ""){
+
+     alert('Please enter the paymnet slip link');
+
+    }else{
 
     let date = new Date();
     let expireddate = new Date(date);
@@ -39,6 +47,8 @@ document.getElementById('Week_Plane_P').addEventListener('click', function() {
             formdata.append('plane_Price', plane_Price);
             formdata.append('date', date.toISOString());
             formdata.append('expireddate', expireddate.toISOString());
+            formdata.append('paymnet', paymnet);
+            console.log(paymnet);
         // console.log('Plane ID:', plane_Id);
         // console.log('Plane Name:', plane_Name);
         // console.log('Plane Price:', plane_Price);
@@ -60,9 +70,17 @@ document.getElementById('Week_Plane_P').addEventListener('click', function() {
                 console.error('Error:', error);
             });
      }
+    }
 });
 
 document.getElementById('Month_Plane_P').addEventListener('click', function() {
+
+    let paymnet = document.getElementById('Month_payamnt').value;
+    if(paymnet == ""){
+
+        alert('Please enter the paymnet slip link');
+   
+    }else{
 
     let date = new Date();
     let expireddate = new Date(date);
@@ -90,6 +108,7 @@ document.getElementById('Month_Plane_P').addEventListener('click', function() {
             formdata.append('plane_Price', plane_Price);
             formdata.append('date', date.toISOString());
             formdata.append('expireddate', expireddate.toISOString());
+            formdata.append('paymnet', paymnet);
         // console.log('Plane ID:', plane_Id);
         // console.log('Plane Name:', plane_Name);
         // console.log('Plane Price:', plane_Price);
@@ -111,11 +130,19 @@ document.getElementById('Month_Plane_P').addEventListener('click', function() {
                 console.error('Error:', error);
             });
      }
+    } 
 });
 
 
 
 document.getElementById('Year_Plane_P').addEventListener('click', function() {
+
+    let paymnet = document.getElementById('Year_payamnt').value;
+
+    if(paymnet == ""){
+        alert('Please enter the paymnet slip link');
+    }else{
+
     let date = new Date();
     let expireddate = new Date(date);
     expireddate.setFullYear(expireddate.getFullYear() + 1);
@@ -142,6 +169,7 @@ document.getElementById('Year_Plane_P').addEventListener('click', function() {
             formdata.append('plane_Price', plane_Price);
             formdata.append('date', date.toISOString());
             formdata.append('expireddate', expireddate.toISOString());
+            formdata.append('paymnet', paymnet);
         // console.log('Plane ID:', plane_Id);
         // console.log('Plane Name:', plane_Name);
         // console.log('Plane Price:', plane_Price);
@@ -163,4 +191,5 @@ document.getElementById('Year_Plane_P').addEventListener('click', function() {
                 console.error('Error:', error);
             });
      }
+    }
 });

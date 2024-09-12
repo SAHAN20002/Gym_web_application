@@ -7,7 +7,12 @@ session_start();
 $user_id = null;
 $email = null;
 
-$email = $_SESSION['email'];    
+if (isset($_SESSION['email'])) {
+    $email = $_SESSION['email'];
+} else {
+    echo "Email is not set in the session.";
+    exit();
+}
 
 if(isset($_SESSION['userId'])!= null){
 
@@ -20,6 +25,7 @@ if(isset($_SESSION['userId'])!= null){
     $price = isset($_POST['plane_Price']) ? $_POST['plane_Price'] : null;
     $date = isset($_POST['date']) ? $_POST['date'] : null;
     $expiry_date = isset($_POST['expireddate']) ? $_POST['expireddate'] : null;
+    $payment = isset($_POST['paymnet']) ? $_POST['paymnet'] : null;
 
     $query = "SELECT * FROM membership_user WHERE user_id = ?";
     $stmt_check = $conn->prepare($query);
@@ -34,6 +40,11 @@ if(isset($_SESSION['userId'])!= null){
     
     $stmt = $conn->prepare("INSERT INTO membership_user (user_id, membership_id, start_date, end_date, cost, membership_type) VALUES (?, ?, ?, ?, ?, ?)");
     $stmt->bind_param("ssssss", $user_id, $plan_id, $date, $expiry_date , $price,$plane_Name);
+
+    
+        $update_query = "UPDATE users SET payment_slip = '$payment', membership_plan = '$plane_Name' WHERE user_id = '$user_id'";
+        mysqli_query($conn, $update_query);
+    
  
     if ($stmt->execute()) {
 
