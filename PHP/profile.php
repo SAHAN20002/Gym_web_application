@@ -133,6 +133,29 @@ if($result_2){
     $cost = "Not selected";
     $membership_type = "Not selected";
 }
+
+$query_3 = "SELECT * FROM instructor_user WHERE user_id = '$user_id'";
+$result_3 = mysqli_query($conn, $query_3);
+
+if($result_3){
+    $row_3 = mysqli_fetch_assoc($result_3);
+   
+    $start_date_i = isset($row_3['s_date']) ? $row_3['s_date'] : '';
+    $end_date_i = isset($row_3['e_date']) ? $row_3['e_date'] : '';
+    $cost_i = isset($row_3['cost']) ? $row_3['cost'] : '';
+    $In_Id = isset($row_3['Instructor_Id']) ? $row_3['Instructor_Id'] : '';
+
+    $query_4 = "SELECT * FROM instructor_show WHERE Instructor_Id = '$In_Id'";
+    $result_4 = mysqli_query($conn, $query_4);
+    $row_4 = mysqli_fetch_assoc($result_4);
+    $Instructor_name = isset($row_4['Name']) ? $row_4['Name'] : '';
+    
+}else{
+    echo 'Email not found in the database';
+    
+}
+    
+    
   
 if (isset($_POST['logout'])) {
     
@@ -579,8 +602,12 @@ if(isset($_POST['phpemail'])){
 
             <div class="instructor-details">
                 <h2>Instructor Details</h2>
-                <p>Instructor Name : not selelct </p>
-                <p>Instructor ID : not selelct </p>
+                <p>Instructor Name : <?php echo $Instructor_name; ?></p>
+                <p>Instructor ID : <?php echo $In_Id; ?></p>
+                <p>Issue Date : <?php echo $start_date_i; ?></p>
+                <p>Expires Date : <?php echo $end_date_i; ?></p>
+                <p>Cost : <?php echo $cost_i; ?></p>
+                
                 <p>Payment Status : not selelct </p>
                 <button class="change-button" id="Change_Instructor">Change Instructor</button>
                 <button class="edit-button_2 chnage_Instructor" id="delete_Instructor">Delete Instructor</button>
