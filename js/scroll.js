@@ -13,17 +13,10 @@ window.onload = function() {
 
 document.getElementById('Week_Plane_P').addEventListener('click', function() {
   
- let paymnet = document.getElementById('Week_payamnt').value;
-
- if(paymnet == ""){
-
-     alert('Please enter the paymnet slip link');
-
-    }else{
-
     let date = new Date();
     let expireddate = new Date(date);
     expireddate.setDate(expireddate.getDate() + 7);
+    let membership = "Membership Payment"
 
     // alert(expireddate);
     //  alert('Pricing clicked');
@@ -39,7 +32,7 @@ document.getElementById('Week_Plane_P').addEventListener('click', function() {
             let plane_Id = plane_Id_El.valueOf();
             let plane_Name = plane_Name_El.valueOf();
             let plane_Price = plane_Price_El.valueOf();
-            // alert(plane_Id);
+            //  alert(plane_Id);
 
          let formdata = new FormData();
             formdata.append('plane_Id', plane_Id);
@@ -47,30 +40,47 @@ document.getElementById('Week_Plane_P').addEventListener('click', function() {
             formdata.append('plane_Price', plane_Price);
             formdata.append('date', date.toISOString());
             formdata.append('expireddate', expireddate.toISOString());
-            formdata.append('paymnet', paymnet);
-            console.log(paymnet);
-        // console.log('Plane ID:', plane_Id);
+            formdata.append('membership', membership);  
+
+            let form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'PHP/Payment.php'; // Replace with your PHP file path
+        
+        // Append the form data values as hidden input elements
+        for (let [key, value] of formdata.entries()) {
+            let input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = value;
+            form.appendChild(input);
+        }
+
+        // Append the form to the document body and submit it
+        document.body.appendChild(form);
+        form.submit();
+           
+         // console.log('Plane ID:', plane_Id);
         // console.log('Plane Name:', plane_Name);
         // console.log('Plane Price:', plane_Price);
         // console.log('Date:', date.toISOString());
         // console.log('Expired Date:', expireddate.toISOString());
-            fetch('PHP/update_M.php', {
-                method: 'POST',
-                body: formdata
-            }).then(function(response) {
-                return response.text();
-            }).then(function(data) {
-                if(data.includes('New record created successfully')){
-                    alert('Plan added successfully'+ data);
-                    window.location.href = 'PHP/profile.php';
-                } else {
-                    alert('Plan not added '+data);    
-                }
-            }).catch(function(error) {
-                console.error('Error:', error);
-            });
+            // fetch('PHP/Payment.php', {
+            //     method: 'POST',
+            //     body: formdata
+            // }).then(function(response) {
+            //     return response.text();
+            // }).then(function(data) {
+            //     if(data.includes('continue')){
+            //         // alert('Plan added successfully'+ data);
+            //         window.location.href = 'PHP/Payment.php';
+            //     } else {
+            //         window.location.href = 'login.html';
+            //     }
+            // }).catch(function(error) {
+            //     console.error('Error:', error);
+            // });
      }
-    }
+    
 });
 
 document.getElementById('Month_Plane_P').addEventListener('click', function() {
