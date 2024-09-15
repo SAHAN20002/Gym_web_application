@@ -12,7 +12,7 @@
  $cost = "Not selected";
  $membership_type = "Not selected";
  $displayButton = "none";
- 
+ $New_cost = 0;
  $text = "Select";
  $date = date('Y-m-d');
 
@@ -49,33 +49,88 @@ if ($result) {
     $profile_pic = isset($row['profile_photo']) ? $row['profile_photo'] : '';
     $paymentSlip = isset($row['payment_slip']) ? $row['payment_slip'] : '';
     $membership_status = isset($row['membership_status']) ? $row['membership_status'] : '';
+
+    $displayRenewPaymentButton = "none";      
     
     if($paymentSlip != 'null'){
         
-        $displayRenewPaymentButton = "none";
+        // $displayRenewPaymentButton = "none";
 
         if($membership_status === "1"){
-            // $paymnet_status = " success";
-            // $displayButton = "show";
-            // $text = "View";
-
-            $query = "SELECT * FROM membership_user WHERE user_id = '$user_id'";
-            $result = mysqli_query($conn, $query);
             
-            if($result){
-                $row = mysqli_fetch_assoc($result);
+                       $paymnet_status = " success";
+                       $displayButton = "show";
+                       $text = "View";
+                       $displayRenewPaymentButton = "none";
+            // $query = "SELECT * FROM membership_user WHERE user_id = '$user_id'";
+            // $result = mysqli_query($conn, $query);
+            
+            // if($result){
+            //     $row = mysqli_fetch_assoc($result);
                
+            //     $end_date = isset($row['end_date']) ? $row['end_date'] : '';
+            //     $membership_type = isset($row['membership_type']) ? $row['membership_type'] : '';
+
+                    
+            //     if($end_date < $date){
+
+            //         $paymnet_status = " expired";
+            //         // $displayButton = "none";
+            //          $displayRenewPaymentButton = "show";
+            //         $text = "Select"; 
+            //         $update_query = "UPDATE users SET payment_slip = 'null', membership_status = '0' WHERE user_id = '$user_id'";
+            //         mysqli_query($conn, $update_query);
+
+                    
+
+            //         // $delete_membership_query = "DELETE FROM membership_user WHERE user_id = '$user_id'";
+            //         // mysqli_query($conn, $delete_membership_query);
+
+            //         $to = $email;
+            //         $subject = "Membership expired";
+            //         $message = "We wanted to let you know that your Fitnes Zone membership was expired. Please make a payment to renew your membership.";
+            //         $headers = "From: your_email@example.com";
+            //         mailsend($to, $subject, $message, $headers);
+                    
+            //     }else{
+            //         $paymnet_status = " success";
+            //         $displayButton = "show";
+            //         $text = "View";
+            //         $displayRenewPaymentButton = "none";
+            //     }                    
+            // }
+
+        }else{
+            $paymnet_status = " pending";
+        }
+
+
+    }else{
+        
+        $paymnet_status = "Not paid";
+    }
+
+    $sql_plan = "SELECT * FROM membership_user WHERE user_id = '$user_id'";;
+    $result = $conn->query($sql_plan);
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $m_id = $row['membership_id'];
+
                 $end_date = isset($row['end_date']) ? $row['end_date'] : '';
                 $membership_type = isset($row['membership_type']) ? $row['membership_type'] : '';
 
-                if($end_date < $date){
+                // echo'<script>alert("'.$end_date.'");</script>';
 
-                    $paymnet_status = " expired";
-                    $displayButton = "none";
-                    $displayRenewPaymentButton = "show";
+                if($end_date < $date){
+                    $viewbutton = "none";
+                    $paymnet_status = "expired";
+                     $displayButton = "show";
+                     $displayRenewPaymentButton = "show";
                     $text = "Select"; 
                     $update_query = "UPDATE users SET payment_slip = 'null', membership_status = '0' WHERE user_id = '$user_id'";
                     mysqli_query($conn, $update_query);
+
+                    
 
                     // $delete_membership_query = "DELETE FROM membership_user WHERE user_id = '$user_id'";
                     // mysqli_query($conn, $delete_membership_query);
@@ -87,22 +142,25 @@ if ($result) {
                     mailsend($to, $subject, $message, $headers);
                     
                 }else{
-                    $paymnet_status = " success";
-                    $displayButton = "show";
+                   
+                    
                     $text = "View";
                     $displayRenewPaymentButton = "none";
-                }                    
-            }
+                }            
 
-        }else{
-            $paymnet_status = " pending";
+
+        $sql = "SELECT * FROM membership WHERE p_id = '$m_id'";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $New_cost = $row['price'];
         }
 
 
-    }else{
+    }        
 
-        $paymnet_status = "Not paid";
-    }
+
+
     // Update the corresponding HTML elements with the values
    
 } else {
@@ -120,6 +178,7 @@ if($result_2){
     $end_date = isset($row_2['end_date']) ? $row_2['end_date'] : '';
     $cost = isset($row_2['cost']) ? $row_2['cost'] : '';
     $membership_type = isset($row_2['membership_type']) ? $row_2['membership_type'] : '';
+    $Plan_Id = isset($row_2['membership_id']) ? $row_2['membership_id'] : '';
     
    
     
@@ -268,6 +327,9 @@ if(isset($_POST['phpemail'])){
         }
         .renew_plane{
             display : <?php echo $displayRenewPaymentButton; ?>;
+        }
+        .viewbtn{
+            display : <?php echo $viewbutton; ?>;
         }
         .back-button {
             margin-left: -200px;
@@ -593,11 +655,12 @@ if(isset($_POST['phpemail'])){
                 echo '<p>Issue Date : '.$start_date.'</p>';
                 echo '<p>Expires Date : '.$end_date.'</p>';
                 echo '<p>Type of Plan : '.$membership_type.'</p>';
-                echo '<p>Cost : '.$cost.'</p>';
+                echo '<p>Select Plan Id : '.$Plan_Id.'</p>';
+                echo '<p>Cost : Rs '.$cost.'.00</p>';
                 echo '<p>Payment Status : '.$paymnet_status.'</p>';
                 ?>
                 
-                <button class="change-button" id="chnage_plane"><?php echo $text ?> Plan</button>
+                <button class="change-button viewbtn" id="chnage_plane"><?php echo $text ?> Plan</button>
                 <button class="edit-button_2 delete_plane" id="delete_plane">Delete Plan</button>
                 <button class="change-button renew_plane" id="renew_plane">Renew Plan</button>
                 <p class="plan-expiry_1">Plan is expired : within two Weeks</p>
@@ -705,6 +768,10 @@ if(isset($_POST['phpemail'])){
         var phpmobile = "<?php echo $mobile; ?>";
         var phpage = "<?php echo $age; ?>";
         var user_id = "<?php echo $user_id; ?>";
+
+        var phpPlanId = "<?php echo $Plan_Id; ?>";
+        var cost = "<?php echo $New_cost; ?>";
+        var membership_type = "<?php echo $membership_type; ?>";
 
         function show_P_C_2(){
            document.getElementById("profile_container_2").style.display = "block";
@@ -851,9 +918,37 @@ if(isset($_POST['phpemail'])){
             });
         });
         document.getElementById('renew_plane').addEventListener('click', function() {
-            document.getElementById('payment_container_3').style.display = "block";
-            document.getElementById("Body").style.filter = "blur(5px)";
-            document.getElementById("payment_container_3").classList.add("animate-show");
+            let paymenttype = "Membership Payment renewal";
+            let paymentcost = cost;
+            let paymentplan = membership_type;
+            let planId= phpPlanId;
+
+            let formdata = new FormData();
+            formdata.append('plane_Id', planId);
+            formdata.append('plane_Name', paymentplan);
+            formdata.append('plane_Price', paymentcost);
+            formdata.append('membership', paymenttype);  
+
+            let form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'Payment.php'; 
+        
+        
+        for (let [key, value] of formdata.entries()) {
+            let input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = value;
+            form.appendChild(input);
+        }
+
+        // Append the form to the document body and submit it
+        document.body.appendChild(form);
+        form.submit();
+
+            // document.getElementById('payment_container_3').style.display = "block";
+            // document.getElementById("Body").style.filter = "blur(5px)";
+            // document.getElementById("payment_container_3").classList.add("animate-show");
             
         });
 

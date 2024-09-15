@@ -6,6 +6,7 @@
    if(isset($_SESSION['userId'])!= null){
 
     $user_id = $_SESSION['userId'];
+
     $plan_id = isset($_POST['plane_Id']) ? $_POST['plane_Id'] : null;
     $plane_Name = isset($_POST['plane_Name']) ? $_POST['plane_Name'] : null;
     $price = isset($_POST['plane_Price']) ? $_POST['plane_Price'] : null;
@@ -376,6 +377,8 @@
         let expireddate = "<?php echo $expiry_date; ?>";
         
         
+        
+        
         function showImagePreview() {
            
             const fileInput = document.getElementById('file-select');
@@ -419,18 +422,70 @@
                 
                  let paymentSlipLink = "C:\\wamp64\\www\\sahan\\gym-main\\PHP\\" + result; 
                  alert(paymentSlipLink); // This will display the returned file path or an error message
+
+                //  let date = date_ND.date.toISOString().slice(0, 10);
+                //  let expireddate = expireddate_ND.date.toISOString().slice(0, 10);
                 
 
                  if(paymentitem == "Membership Payment"){
 
-                     alert('Membership Payment confirmed. Your payment slip has been uploaded successfully.');
+                    //  alert('Membership Payment confirmed. Your payment slip has been uploaded successfully.');
+
+                     let formdata = new FormData();
+                       formdata.append('plane_Id', plan_id);
+                       formdata.append('plane_Name', plane_Name);
+                       formdata.append('plane_Price', price);
+                       formdata.append('date', date);
+                       formdata.append('expireddate', expireddate);
+                       formdata.append('paymnet', paymentSlipLink);
+
+        
+                        fetch('update_M.php', {
+                             method: 'POST',
+                             body: formdata
+                        }).then(function(response) {
+                          return response.text();
+                        }).then(function(data) {
+                        if(data.includes('New record created successfully')){
+                            alert('Plan added successfully'+ data);
+                            
+                        } else {
+                            alert('Plan not added '+data); 
+                            window.location.href = 'profile.php';   
+                        }
+                        }).catch(function(error) {
+                            console.error('Error:', error);
+                        });
 
                  }else if(paymentitem == "Instructor Payment"){
 
                     alert('Instructor Payment confirmed. Your payment slip has been uploaded successfully.');
                   
                  }else if(paymentitem == "Membership Payment renewal"){
+                    let formdata = new FormData();
+                       
+                       formdata.append('payment_photo_link', paymentSlipLink);
+                       formdata.append('plane_Price', price);
 
+                        fetch('renewPayment.php', {
+                             method: 'POST',
+                             body: formdata
+                        }).then(function(response) {
+                          return response.text();
+                        }).then(function(data) {
+                        if(data.includes('success')){
+
+                            alert('Membership Payment renewal confirmed. Your payment slip has been uploaded successfully.');
+                            
+                        } else {
+                            alert('Payment faild. Please try again.'+data); 
+                            // window.location.href = 'profile.php';   
+                        }
+                        }).catch(function(error) {
+                            console.error('Error:', error);
+                        });
+
+                    alert('Membership Payment renewal confirmed. Your payment slip has been uploaded successfully.');
                    
                  }else if(paymentitem == "Instructor Payment renewal"){
 

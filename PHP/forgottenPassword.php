@@ -2,6 +2,7 @@
  session_start();
 
  if (isset($_POST['verificationCode'])) {
+    
     $enteredCode = $_POST['verificationCode'];
     if (isset($_SESSION['verificationCode'])) {
         $storedCode = $_SESSION['verificationCode'];
@@ -20,7 +21,15 @@
     } else {
         echo "<script>alert('Verification code is missing!');</script>";
         echo "<script>showToast(errorMsg_2);</script>";
+        
     }
+
+}
+
+if (isset($_POST['back'])) {
+    unset($_SESSION['verificationCode']);
+     header("Location: forgottenPassword.php");
+    exit;
 }
 ?>
 
@@ -264,8 +273,13 @@
             </div>
             <div class="form-group">
                 <button type="submit">Verify Code</button>
+                
             </div>
             </form>
+            <form action="forgottenPassword.php" method="post">
+            <div class="form-group">
+                <button type="submit" name="back">Back</button>
+             </div>   
         </div>
         ';
 ?>

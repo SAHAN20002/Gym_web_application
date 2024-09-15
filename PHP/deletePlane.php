@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         echo "<script>alert('Membership deleted successfully.');</script>";
 
-        header("Location: profile.php");
+        header("Location: ../services.html");
         }  
     } else {
         echo "<script>alert('Incorrect password.');</script>";

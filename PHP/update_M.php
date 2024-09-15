@@ -41,8 +41,9 @@ if(isset($_SESSION['userId'])!= null){
     $stmt = $conn->prepare("INSERT INTO membership_user (user_id, membership_id, start_date, end_date, cost, membership_type) VALUES (?, ?, ?, ?, ?, ?)");
     $stmt->bind_param("ssssss", $user_id, $plan_id, $date, $expiry_date , $price,$plane_Name);
 
-    
-        $update_query = "UPDATE users SET payment_slip = '$payment', membership_plan = '$plane_Name' WHERE user_id = '$user_id'";
+         $escaped_path = addslashes($payment);    
+
+        $update_query = "UPDATE users SET payment_slip = '$escaped_path', membership_plan = '$plane_Name' WHERE user_id = '$user_id'";
         mysqli_query($conn, $update_query);
     
  

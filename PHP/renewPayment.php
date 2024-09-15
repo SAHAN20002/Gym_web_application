@@ -14,14 +14,16 @@ $date = date("Y-m-d");
 if(isset($_POST['payment_photo_link'])){
 
     $payment = $_POST['payment_photo_link'];
-
+    $price = $_POST['plane_Price'];
     
     $sql_plan = "SELECT membership_type FROM membership_user WHERE user_id = '$user_id'";
     $result = $conn->query($sql_plan);
 
     if ($result->num_rows > 0) {
         
-        $sql = "UPDATE users SET payment_slip = '$payment' WHERE user_id = '$user_id'";
+        $escaped_path = addslashes($payment);    
+
+        $sql = "UPDATE users SET payment_slip = '$escaped_path' WHERE user_id = '$user_id'";
         $result_1 = $conn->query($sql);
 
         $row = $result->fetch_assoc();
@@ -41,7 +43,7 @@ if(isset($_POST['payment_photo_link'])){
         }
 
         $start_date = $date;
-        $sql_date = "UPDATE membership_user SET start_date = '$start_date', end_date = '$expiry_date' WHERE user_id = '$user_id'";
+        $sql_date = "UPDATE membership_user SET start_date = '$start_date', end_date = '$expiry_date',cost = '$price' WHERE user_id = '$user_id'";
         $result = $conn->query($sql_date);
 
     } else {
