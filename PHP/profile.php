@@ -62,43 +62,7 @@ if ($result) {
                        $displayButton = "show";
                        $text = "View";
                        $displayRenewPaymentButton = "none";
-            // $query = "SELECT * FROM membership_user WHERE user_id = '$user_id'";
-            // $result = mysqli_query($conn, $query);
             
-            // if($result){
-            //     $row = mysqli_fetch_assoc($result);
-               
-            //     $end_date = isset($row['end_date']) ? $row['end_date'] : '';
-            //     $membership_type = isset($row['membership_type']) ? $row['membership_type'] : '';
-
-                    
-            //     if($end_date < $date){
-
-            //         $paymnet_status = " expired";
-            //         // $displayButton = "none";
-            //          $displayRenewPaymentButton = "show";
-            //         $text = "Select"; 
-            //         $update_query = "UPDATE users SET payment_slip = 'null', membership_status = '0' WHERE user_id = '$user_id'";
-            //         mysqli_query($conn, $update_query);
-
-                    
-
-            //         // $delete_membership_query = "DELETE FROM membership_user WHERE user_id = '$user_id'";
-            //         // mysqli_query($conn, $delete_membership_query);
-
-            //         $to = $email;
-            //         $subject = "Membership expired";
-            //         $message = "We wanted to let you know that your Fitnes Zone membership was expired. Please make a payment to renew your membership.";
-            //         $headers = "From: your_email@example.com";
-            //         mailsend($to, $subject, $message, $headers);
-                    
-            //     }else{
-            //         $paymnet_status = " success";
-            //         $displayButton = "show";
-            //         $text = "View";
-            //         $displayRenewPaymentButton = "none";
-            //     }                    
-            // }
 
         }else{
             $paymnet_status = " pending";
