@@ -423,15 +423,16 @@
 
                  if(paymentitem == "Membership Payment"){
 
-                     alert('Payment confirmed. Your payment slip has been uploaded successfully.');
+                     alert('Membership Payment confirmed. Your payment slip has been uploaded successfully.');
 
-                 }else if(paymentitem == "Membership Payment"){
+                 }else if(paymentitem == "Instructor Payment"){
 
+                    alert('Instructor Payment confirmed. Your payment slip has been uploaded successfully.');
                   
-                 }else if(paymentitem == "Membership Payment"){
+                 }else if(paymentitem == "Membership Payment renewal"){
 
                    
-                 }else if(paymentitem == "Membership Payment"){
+                 }else if(paymentitem == "Instructor Payment renewal"){
 
                    
                  }else{
