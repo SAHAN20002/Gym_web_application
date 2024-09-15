@@ -283,7 +283,7 @@
 <body>
 
     <div class="container">
-        <h4>Back</h4>
+        <h4 onclick="goBack()" style="cursor: pointer;">Back</h4>
         <div class="payment-options">
 
             <div class="payment-options-inner">
@@ -467,6 +467,11 @@
             //     alert('Image upload failed.');
             // });
         }
+
+                   function goBack() {
+                       window.history.back();
+                    }
+
 
     </script>
 </body>
