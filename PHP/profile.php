@@ -636,7 +636,7 @@ if(isset($_POST['phpemail'])){
                 <p>Instructor ID : <?php echo $In_Id; ?></p>
                 <p>Issue Date : <?php echo $start_date_i; ?></p>
                 <p>Expires Date : <?php echo $end_date_i; ?></p>
-                <p>Cost : <?php echo $cost_i; ?></p>
+                <p>Cost : Rs <?php echo $cost_i; ?>.00</p>
                 
                 <p>Payment Status : not selelct </p>
                 <button class="change-button" id="Change_Instructor">Change Instructor</button>
@@ -759,6 +759,12 @@ if(isset($_POST['phpemail'])){
             var r = confirm("Are you sure you want to delete your Plan becourse you payment is not refundable");
             if (r == true) {
                 window.location.href = "deletePlane.php";
+            }
+        });
+        document.getElementById('delete_Instructor').addEventListener('click', function() {
+            var r = confirm("Are you sure you want to delete your Instructor becourse you payment is not refundable");
+            if (r == true) {
+                window.location.href = "deleteInstructor.php";
             }
         });
         document.getElementById('logoutButton').addEventListener('click', function() {

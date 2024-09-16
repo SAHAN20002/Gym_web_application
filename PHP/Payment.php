@@ -459,7 +459,34 @@
 
                  }else if(paymentitem == "Instructor Payment"){
 
-                    alert('Instructor Payment confirmed. Your payment slip has been uploaded successfully.');
+                    let formdata = new FormData();
+
+                       formdata.append('In_Id', plan_id);
+                       formdata.append('In_cost', price);
+                       formdata.append('date', date);
+                       formdata.append('expireddate', expireddate);
+                       formdata.append('paymnetLink', paymentSlipLink);
+
+        
+                        fetch('updated_I.php', {
+                             method: 'POST',
+                             body: formdata
+                        }).then(function(response) {
+                          return response.text();
+                        }).then(function(data) {
+                        if(data.includes('Email sent successfully.')){
+                            alert('Plan added successfully'+ data);
+                              window.location.href = 'profile.php';
+                        } else {
+                            alert('Plan not added '+data); 
+                            //    
+                        }
+                        }).catch(function(error) {
+                            console.error('Error:', error);
+                        });
+
+                    // alert('Instructor Payment confirmed. Your payment slip has been uploaded successfully.');
+
                   
                  }else if(paymentitem == "Membership Payment renewal"){
                     let formdata = new FormData();
@@ -485,7 +512,7 @@
                             console.error('Error:', error);
                         });
 
-                    alert('Membership Payment renewal confirmed. Your payment slip has been uploaded successfully.');
+                    // alert('Membership Payment renewal confirmed. Your payment slip has been uploaded successfully.');
                    
                  }else if(paymentitem == "Instructor Payment renewal"){
 

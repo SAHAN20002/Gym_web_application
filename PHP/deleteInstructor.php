@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute();
         $stmt->close();
 
-        $update_query = "UPDATE users SET instructor_pyamnet_slip = 'null', instructor_status = '0' WHERE user_id = '$userId'";
+        $update_query = "UPDATE users SET instructor_pyamnet_slip = 'null', instructor_status = '0',instructor = 'null' WHERE user_id = '$userId'";
         mysqli_query($conn, $update_query);
 
         $delete_membership_query = "DELETE FROM instructor_user WHERE user_Id = '$userId'";
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $headers = "From: your_email@example.com";
                 mailsend($to, $subject, $message, $headers);
 
-        echo "<script>alert('Membership deleted successfully.');</script>";
+        echo "<script>alert('Instructor deleted successfully.');</script>";
 
         header("Location: ../team.html");
         }  
@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delete Plane</title>
+    <title>Delete Instructor</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -112,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <div class="container">
         <h1>Delete Instructor</h1>
-        <form method="post" action="deletePlane.php">
+        <form method="post" action="deleteInstructor.php">
             <label for="password">Enter Password:</label>
             <input type="password" id="password" name="password" required>
             <button type="submit">Submit</button>

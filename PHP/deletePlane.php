@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute();
         $stmt->close();
 
-        $update_query = "UPDATE users SET payment_slip = 'null', membership_status = '0' WHERE user_id = '$userId'";
+        $update_query = "UPDATE users SET payment_slip = 'null', membership_status = '0' membership_plan = 'null' WHERE user_id = '$userId'";
         mysqli_query($conn, $update_query);
 
         $delete_membership_query = "DELETE FROM membership_user WHERE user_id = '$userId'";

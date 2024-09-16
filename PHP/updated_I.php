@@ -43,15 +43,17 @@ if(isset($_SESSION['userId'])!= null){
            $stmt = $conn->prepare("INSERT INTO instructor_user (user_Id, Instructor_Id, s_date, e_date, cost) VALUES (?, ?, ?, ?, ?)");
            $stmt->bind_param("sssss", $user_id, $Is_id, $date, $expiry_date , $Is_cost);
 
-    
-           $update_query = "UPDATE users SET instructor_pyamnet_slip = '$payment', instructor = '$Is_id' WHERE user_id = '$user_id'";
+           
+           $escaped_path = addslashes($payment);  
+
+           $update_query = "UPDATE users SET instructor_pyamnet_slip = '$escaped_path', instructor = '$Is_id' WHERE user_id = '$user_id'";
            mysqli_query($conn, $update_query);
     
 
           if ($stmt->execute()) {
 
                $to = $email;
-               $subject = "Membership purchased";
+               $subject = "Instructor purchased";
                $message = "We wanted to let you successfully purchased a instructor.wait until If  the admin approve your payment. ";
                $headers = "From:";
                mailsend($to, $subject, $message, $headers);
