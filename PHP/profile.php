@@ -7,12 +7,14 @@
  unset($_SESSION['verificationVariable']);
  
  $paymnet_status = "Not paid";
+ $I_paymnet_status = "Not paid";
  $start_date = "Not selected";
  $end_date = "Not selected";
  $cost = "Not selected";
  $membership_type = "Not selected";
  $displayButton = "none";
  $New_cost = 0;
+ $Newcost_i = 0;
  $text = "Select";
  $date = date('Y-m-d');
 
@@ -48,9 +50,14 @@ if ($result) {
     $age = isset($row['age']) ? $row['age'] : '';
     $profile_pic = isset($row['profile_photo']) ? $row['profile_photo'] : '';
     $paymentSlip = isset($row['payment_slip']) ? $row['payment_slip'] : '';
+    $InstructorPaymnetSlip = isset($row['instructor_pyamnet_slip']) ? $row['instructor_pyamnet_slip'] : '';
     $membership_status = isset($row['membership_status']) ? $row['membership_status'] : '';
-
-    $displayRenewPaymentButton = "none";      
+    $instructor_status = isset($row['instructor_status']) ? $row['instructor_status'] : '';
+    
+    $displayINstructorButton = "show";
+    $displayRenewPaymentButton = "none";   
+    $displayRenewInstructortButton = "none";  
+    $displayDeleteInstructorButton = "none"; 
     
     if($paymentSlip != 'null'){
         
@@ -65,13 +72,36 @@ if ($result) {
             
 
         }else{
-            $paymnet_status = " pending";
+            $paymnet_status = " Pending";
         }
 
 
     }else{
         
         $paymnet_status = "Not paid";
+    }
+
+    if($InstructorPaymnetSlip != 'null'){
+        
+        // $displayRenewPaymentButton = "none";
+
+        if($instructor_status === "1"){
+            
+                       $I_paymnet_status = " success";
+                       $displayDeleteInstructorButton = "show";
+                       $displayRenewInstructortButton = "none";  
+                       $text_i = "View";
+                       
+            
+
+        }else{
+            $I_paymnet_status = " Pending";
+        }
+
+
+    }else{
+        
+        $I_paymnet_status = "Not paid";
     }
 
     $sql_plan = "SELECT * FROM membership_user WHERE user_id = '$user_id'";;
@@ -118,6 +148,54 @@ if ($result) {
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
             $New_cost = $row['price'];
+        }
+
+
+    }  
+    
+    $sql_instructor = "SELECT * FROM instructor_user WHERE user_Id = '$user_id'";;
+    $result = $conn->query($sql_instructor);
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $I_id = $row['Instructor_Id'];
+
+                $end_date = isset($row['e_date']) ? $row['e_date'] : '';
+                
+                // echo'<script>alert("'.$end_date.'");</script>';
+
+                if($end_date < $date){
+                    
+                    $I_paymnet_status = "Expired";
+                    $displayDeleteInstructorButton = "show";
+                    $displayRenewInstructortButton = "show";
+                    $displayINstructorButton = "none";
+                    $update_query = "UPDATE users SET instructor_pyamnet_slip = 'null', instructor_status = '0' WHERE user_id = '$user_id'";
+                    mysqli_query($conn, $update_query);
+
+                    
+
+                    // $delete_membership_query = "DELETE FROM membership_user WHERE user_id = '$user_id'";
+                    // mysqli_query($conn, $delete_membership_query);
+
+                    $to = $email;
+                    $subject = "Instructor payment expired";
+                    $message = "We wanted to let you know that your Fitnes Zone Instructor payment  was expired. Please make a payment to renew your Payment.";
+                    $headers = "From: your_email@example.com";
+                    mailsend($to, $subject, $message, $headers);
+                    
+                }else{
+                   
+                    
+                    // $text = "View";
+                    // $displayRenewPaymentButton = "none";
+                }            
+
+
+        $sql = "SELECT * FROM instructor_show WHERE Instructor_Id = '$I_id'";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $Newcost_i = $row['price'];
         }
 
 
@@ -292,8 +370,17 @@ if(isset($_POST['phpemail'])){
         .renew_plane{
             display : <?php echo $displayRenewPaymentButton; ?>;
         }
+        .Renew_Instructor{
+            display : <?php echo $displayRenewInstructortButton; ?>;
+        }
         .viewbtn{
             display : <?php echo $viewbutton; ?>;
+        }
+        .delete_Instructor{
+            display : <?php echo $displayDeleteInstructorButton; ?>;
+        }
+        .View_instructor{
+            display : <?php echo $displayINstructorButton; ?>;
         }
         .back-button {
             margin-left: -200px;
@@ -637,10 +724,12 @@ if(isset($_POST['phpemail'])){
                 <p>Issue Date : <?php echo $start_date_i; ?></p>
                 <p>Expires Date : <?php echo $end_date_i; ?></p>
                 <p>Cost : Rs <?php echo $cost_i; ?>.00</p>
+                <p>Payment Status : <?php echo $I_paymnet_status; ?></p>
                 
-                <p>Payment Status : not selelct </p>
-                <button class="change-button" id="Change_Instructor">Change Instructor</button>
-                <button class="edit-button_2 chnage_Instructor" id="delete_Instructor">Delete Instructor</button>
+                
+                <button class="change-button View_instructor" id="Change_Instructor">View Instructor</button>
+                <button class="edit-button_2 delete_Instructor" id="delete_Instructor">Delete Instructor</button>
+                <button class="change-button Renew_Instructor" id="Renew_Instructor">Renew Instructor</button>
                 <p class="plan-expiry_2">Plan is expired : within two Weeks</p>
             </div>
 
@@ -705,24 +794,7 @@ if(isset($_POST['phpemail'])){
             </div>
         </div>
     </div>
-    <div class="payment_container_3" id="payment_container_3">
-        <button class="back-button_1" onclick="goToProfile()">Back</button>
-
-        <div class="profile-details">
-            
-            <div class="user-info">
-            <?php    
-            echo '<p class="payment_text">Type of Plan : '.$membership_type.'</p>';
-            echo '<p class="payment_text">Cost : '.$cost.'</p>';
-            ?>
-            <h4 class="payment_text" style="color:red;"> Upload your payment slip in Google Drive, make sure it is public, get the link, and paste it here </h4>   
-            <p class="p_I"><label>payment photo link:</label> <input type="text" id="payment_photo_link" placeholder="https://drive.google.com/file/d/18SehmWYji7slJ5YSxRFkHVF_1A1xFZ0Q/view?usp=sharing"></p>
-               
-              
-                <button class="button_In"  onclick="paymnet()">submit</button>
-            </div>
-        </div>
-    </div>
+    
 
     
     <script>
@@ -736,6 +808,9 @@ if(isset($_POST['phpemail'])){
         var phpPlanId = "<?php echo $Plan_Id; ?>";
         var cost = "<?php echo $New_cost; ?>";
         var membership_type = "<?php echo $membership_type; ?>";
+
+        var phpInstructorId = "<?php echo $In_Id; ?>";
+        var I_cost = "<?php echo $Newcost_i; ?>";
 
         function show_P_C_2(){
            document.getElementById("profile_container_2").style.display = "block";
@@ -921,6 +996,42 @@ if(isset($_POST['phpemail'])){
             // document.getElementById("payment_container_3").classList.add("animate-show");
             
         });
+
+        document.getElementById('Renew_Instructor').addEventListener('click', function() {
+            let paymenttype = "Instructor Payment renewal";
+            let paymentcost = I_cost;
+            let paymentplan = "Month(30 days)";
+            let planId= phpPlanId;
+
+            let formdata = new FormData();
+            formdata.append('plane_Id', planId);
+            formdata.append('plane_Name', paymentplan);
+            formdata.append('plane_Price', paymentcost);
+            formdata.append('membership', paymenttype);  
+
+            let form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'Payment.php'; 
+        
+        
+        for (let [key, value] of formdata.entries()) {
+            let input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = value;
+            form.appendChild(input);
+        }
+
+        // Append the form to the document body and submit it
+        document.body.appendChild(form);
+        form.submit();
+
+            // document.getElementById('payment_container_3').style.display = "block";
+            // document.getElementById("Body").style.filter = "blur(5px)";
+            // document.getElementById("payment_container_3").classList.add("animate-show");
+            
+        });
+        
 
         function paymnet(){
             let payment_photo_link = document.getElementById('payment_photo_link').value;

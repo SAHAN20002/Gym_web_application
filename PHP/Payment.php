@@ -515,7 +515,8 @@
                     // alert('Membership Payment renewal confirmed. Your payment slip has been uploaded successfully.');
                    
                  }else if(paymentitem == "Instructor Payment renewal"){
-
+                    
+                       alert('Instructor Payment renewal confirmed. Your payment slip has been uploaded successfully.');
                    
                  }else{
                      alert('Payment faild. Please try again.');
