@@ -516,6 +516,30 @@
                    
                  }else if(paymentitem == "Instructor Payment renewal"){
 
+                    let formdata = new FormData();
+                       
+                       formdata.append('payment_photo_link', paymentSlipLink);
+                       formdata.append('plane_Price', price);
+
+                        fetch('renewInsructor.php', {
+                             method: 'POST',
+                             body: formdata
+                        }).then(function(response) {
+                          return response.text();
+                        }).then(function(data) {
+                        if(data.includes('success')){
+
+                            alert('Membership Payment renewal confirmed. Your payment slip has been uploaded successfully.');
+                            
+                        } else {
+                            alert('Payment faild. Please try again.'+data); 
+                            // window.location.href = 'profile.php';   
+                        }
+                        }).catch(function(error) {
+                            console.error('Error:', error);
+                        });
+
+                    //    alert('Instructor Payment renewal confirmed. Your payment slip has been uploaded successfully.');
                    
                  }else{
                      alert('Payment faild. Please try again.');
