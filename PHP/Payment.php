@@ -420,7 +420,7 @@
              .then(response => response.text())
              .then(result => {
                 
-                 let paymentSlipLink = "C:\\wamp64\\www\\sahan\\gym-main\\PHP\\" + result; 
+                 let paymentSlipLink = "http://localhost/sahan/gym-main/PHP/" + result; 
                  alert(paymentSlipLink); // This will display the returned file path or an error message
 
                 //  let date = date_ND.date.toISOString().slice(0, 10);
