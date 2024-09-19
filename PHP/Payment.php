@@ -278,6 +278,40 @@
             font-size: 18px;
 
         }
+        
+        /* Full-screen overlay */
+#loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 0, 0.7);  /* Light opaque background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Make sure it's above other elements */
+    backdrop-filter: blur(5px); /* Apply blur effect */
+}
+
+/* Spinner styling */
+.spinner {
+    border: 12px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 12px solid #3498db;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+
+
     </style>
 </head>
 
@@ -366,6 +400,9 @@
             </div>
         </div>
     </div>
+    <div id="loading-overlay" style="display: none;">
+    <div class="spinner"></div>
+    </div>
 
     
     <script>
@@ -439,6 +476,7 @@
                        formdata.append('expireddate', expireddate);
                        formdata.append('paymnet', paymentSlipLink);
 
+                       document.getElementById('loading-overlay').style.display = 'flex';
         
                         fetch('update_M.php', {
                              method: 'POST',
@@ -446,6 +484,7 @@
                         }).then(function(response) {
                           return response.text();
                         }).then(function(data) {
+                            document.getElementById('loading-overlay').style.display = 'none';
                         if(data.includes('New record created successfully')){
                             alert('Plan added successfully'+ data);
                             window.location.href = 'AfterpaymnetUI.php';
@@ -468,13 +507,15 @@
                        formdata.append('expireddate', expireddate);
                        formdata.append('paymnetLink', paymentSlipLink);
 
-        
+                       document.getElementById('loading-overlay').style.display = 'flex';
+
                         fetch('updated_I.php', {
                              method: 'POST',
                              body: formdata
                         }).then(function(response) {
                           return response.text();
                         }).then(function(data) {
+                            document.getElementById('loading-overlay').style.display = 'none';
                         if(data.includes('Email sent successfully.')){
                             alert('Plan added successfully'+ data);
                              window.location.href = 'AfterpaymnetUI.php';
@@ -496,13 +537,14 @@
                        
                        formdata.append('payment_photo_link', paymentSlipLink);
                        formdata.append('plane_Price', price);
-
+                       document.getElementById('loading-overlay').style.display = 'flex';
                         fetch('renewPayment.php', {
                              method: 'POST',
                              body: formdata
                         }).then(function(response) {
                           return response.text();
                         }).then(function(data) {
+                            document.getElementById('loading-overlay').style.display = 'none';
                         if(data.includes('success')){
 
                             alert('Membership Payment renewal confirmed. Your payment slip has been uploaded successfully.');
@@ -524,13 +566,14 @@
                        
                        formdata.append('payment_photo_link', paymentSlipLink);
                        formdata.append('plane_Price', price);
-
+                       document.getElementById('loading-overlay').style.display = 'flex';
                         fetch('renewInsructor.php', {
                              method: 'POST',
                              body: formdata
                         }).then(function(response) {
                           return response.text();
                         }).then(function(data) {
+                            document.getElementById('loading-overlay').style.display = 'none';
                         if(data.includes('success')){
 
                             alert('Membership Payment renewal confirmed. Your payment slip has been uploaded successfully.');
