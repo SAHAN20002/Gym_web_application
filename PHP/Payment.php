@@ -448,6 +448,7 @@
                         }).then(function(data) {
                         if(data.includes('New record created successfully')){
                             alert('Plan added successfully'+ data);
+                            window.location.href = 'AfterpaymnetUI.php';
                             
                         } else {
                             alert('Plan not added '+data); 
@@ -476,9 +477,11 @@
                         }).then(function(data) {
                         if(data.includes('Email sent successfully.')){
                             alert('Plan added successfully'+ data);
-                              window.location.href = 'profile.php';
+                             window.location.href = 'AfterpaymnetUI.php';
+                              
                         } else {
                             alert('Plan not added '+data); 
+                            window.location.href = 'profile.php';
                             //    
                         }
                         }).catch(function(error) {
@@ -503,6 +506,7 @@
                         if(data.includes('success')){
 
                             alert('Membership Payment renewal confirmed. Your payment slip has been uploaded successfully.');
+                            window.location.href = 'AfterpaymnetUI.php';
                             
                         } else {
                             alert('Payment faild. Please try again.'+data); 
@@ -530,6 +534,7 @@
                         if(data.includes('success')){
 
                             alert('Membership Payment renewal confirmed. Your payment slip has been uploaded successfully.');
+                            window.location.href = 'AfterpaymnetUI.php';
                             
                         } else {
                             alert('Payment faild. Please try again.'+data); 
