@@ -61,12 +61,13 @@ if($conn == false){
                 echo "Verification email sent!";
                 $sql = "INSERT INTO users (user_id,email,email_v_status,v_code,user_name,Password,NIC,gender,profile_photo,payment_slip,instructor_pyamnet_slip,membership_status,instructor_status,p_number,age,membership_plan,instructor) 
                 VALUES ('$userId','$email',null,'$verificationVariable','$username','$password','$nic','$gender','null','null','null','0','0','$p_number','$age','null','null')";
-
+                
                   
  
 
             } else {
                echo "Failed to send verification email.";
+               exit();
             } 
 
         
