@@ -295,6 +295,7 @@ window.onload = function (){
          })
          .then(data => {
              if(Array.isArray(data)) {
+               console.log(data);
             for(let i=0;i<data.length;i++){
                 
                 if(data[i].Instructor_Id === "IN001"){
@@ -302,18 +303,36 @@ window.onload = function (){
                     document.getElementById("Price_1").textContent = data[i].price;
                     document.getElementById("In_Postion_1").textContent = data[i].description;
                     document.getElementById("In_Id_1").textContent = data[i].Instructor_Id;
+
+                    if (data[i].user_count > 10) {
+                         document.getElementById("IN_01").style.display = 'none';
+                         document.getElementById("booked_message_1").textContent = 'Instructor fully booked!';
+                        
+                    }
                 }
                 if(data[i].Instructor_Id === "IN002"){
                     document.getElementById("In_name_2").textContent = data[i].Name;
                     document.getElementById("Price_2").textContent = data[i].price;
                     document.getElementById("In_Postion_2").textContent = data[i].description;
                     document.getElementById("In_Id_2").textContent = data[i].Instructor_Id;
+
+                    if (data[i].user_count > 10) {
+                        document.getElementById("IN_02").style.display = 'none';
+                        document.getElementById("booked_message_2").textContent = 'Instructor fully booked!';
+                       
+                   }
                 }
                 if(data[i].Instructor_Id === "IN003"){
                     document.getElementById("In_name_3").textContent = data[i].Name;
                     document.getElementById("Price_3").textContent = data[i].price;
                     document.getElementById("In_Postion_3").textContent = data[i].description;
                     document.getElementById("In_Id_3").textContent = data[i].Instructor_Id;
+
+                    if (data[i].user_count > 10) {
+                        document.getElementById("IN_03").style.display = 'none';
+                        document.getElementById("booked_message_3").textContent = 'Instructor fully booked!';
+                       
+                   }
                 }
               }
              }else{

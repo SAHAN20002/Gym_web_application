@@ -92,7 +92,9 @@ if(isset($_SESSION['verificationVariable'])== null){
             <input class="submit-btn" type="submit" value="Verify">
         </form>
     </div>
-    
+    <div id="loading-overlay" style="display: none;">
+            <div class="spinner"></div>
+    </div>
 </body>
 </html>
 
