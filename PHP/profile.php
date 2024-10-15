@@ -307,7 +307,7 @@ if(isset($_POST['phpemail'])){
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #7a6429;
+            background-image:url('../img/bg1.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -319,6 +319,7 @@ if(isset($_POST['phpemail'])){
 
         .profile-container {
             display: flex;
+            color:#cbb600;
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
@@ -326,7 +327,7 @@ if(isset($_POST['phpemail'])){
 
         .sidebar {
             width: 25%;
-            background-color: #000000;
+            background-color: #000000ee;
             padding: 20px;
             border-radius: 10px;
             text-align: center;
@@ -394,7 +395,12 @@ if(isset($_POST['phpemail'])){
         }
 
         .back-button:hover {
-            background-color: #ffcc00;
+            color:#ffd900;
+            background-color: #686868;
+            border-color:#ffd900;
+            border-size:2px;
+            
+
             /* Slightly brighter shade */
             transform: translateY(-3px);
             /* Creates lift effect */
@@ -416,7 +422,8 @@ if(isset($_POST['phpemail'])){
         .membership-plan,
         .instructor-details,
         .online-classes {
-            background-color: #2b2b2b;
+            background-color: #000000c0;
+            color:#cbb600;
             padding: 20px;
             border-radius: 10px;
             margin-bottom: 20px;
@@ -425,7 +432,7 @@ if(isset($_POST['phpemail'])){
         .membership-plan h2,
         .instructor-details h2,
         .online-classes h2 {
-            color: #ffeb3b;
+            color: #fff200;
             margin-left: 20px;
         }
 
