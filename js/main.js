@@ -304,7 +304,7 @@ window.onload = function (){
                     document.getElementById("In_Postion_1").textContent = data[i].description;
                     document.getElementById("In_Id_1").textContent = data[i].Instructor_Id;
 
-                    if (data[i].user_count > 10) {
+                    if (data[i].user_count > 0) {
                          document.getElementById("IN_01").style.display = 'none';
                          document.getElementById("booked_message_1").textContent = 'Instructor fully booked!';
                         
@@ -316,7 +316,7 @@ window.onload = function (){
                     document.getElementById("In_Postion_2").textContent = data[i].description;
                     document.getElementById("In_Id_2").textContent = data[i].Instructor_Id;
 
-                    if (data[i].user_count > 10) {
+                    if (data[i].user_count > 0) {
                         document.getElementById("IN_02").style.display = 'none';
                         document.getElementById("booked_message_2").textContent = 'Instructor fully booked!';
                        
