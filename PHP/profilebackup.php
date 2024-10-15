@@ -323,6 +323,7 @@ if(isset($_POST['phpemail'])){
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            border:1px solid red;
         }
 
         .sidebar {
@@ -396,7 +397,7 @@ if(isset($_POST['phpemail'])){
 
         .back-button:hover {
             color:#ffd900;
-            background-color: #686868;
+            background-color: #000000;
             border-color:#ffd900;
             border-size:2px;
             
@@ -422,8 +423,7 @@ if(isset($_POST['phpemail'])){
         .membership-plan,
         .instructor-details,
         .online-classes {
-            background-color: #000000c0;
-            color:#cbb600;
+            background-color: #2b2b2b;
             padding: 20px;
             border-radius: 10px;
             margin-bottom: 20px;
@@ -432,7 +432,7 @@ if(isset($_POST['phpemail'])){
         .membership-plan h2,
         .instructor-details h2,
         .online-classes h2 {
-            color: #fff200;
+            color: #ffeb3b;
             margin-left: 20px;
         }
 
@@ -467,6 +467,7 @@ if(isset($_POST['phpemail'])){
         }
 
         .class-box {
+            background-color:#7d7d7d;
             flex-shrink: 0;
             width: 200px;
             height: 350px;
@@ -524,7 +525,7 @@ if(isset($_POST['phpemail'])){
 
         /* pesronal infomation div */
         .profile-container_2 {
-            background-color: #000000ee;
+            background-color: #f7f7f4ad;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px #0000001a;
@@ -535,7 +536,7 @@ if(isset($_POST['phpemail'])){
             margin-left: 480px;
             z-index: 1;
              display: none; 
-            /* border: 1px solid red; */
+             border: 1px solid red; 
         }
 
         .profile-details {
@@ -545,7 +546,6 @@ if(isset($_POST['phpemail'])){
             gap: 20px;
             flex-wrap: wrap;
             Z-index: 99;
-            color:#ffffff;
             /* border: 1px solid red; */
         }
 
@@ -791,10 +791,10 @@ if(isset($_POST['phpemail'])){
 
             <!-- User Details Section -->
             <div class="user-info">
-                <p class="p_I"><strong style="color:#ffffff">User:</strong> <input type="text" id="userName" value="<?php echo $name; ?>" disabled></p>
-                <p class="p_I"><strong style="color:#ffffff">Email:</strong> <input type="email" id="userEmail" value="<?php echo $email; ?>" disabled></p>
-                <p class="p_I"><strong style="color:#ffffff">Mobile No:</strong> <input type="text" id="userMobile" value="<?php echo $mobile; ?>" disabled></p>
-                <p class="p_I"><strong style="color:#ffffff">Age:</strong> <input type="text" id="Age" value="<?php echo $age; ?>" disabled></p>
+                <p class="p_I"><strong>User:</strong> <input type="text" id="userName" value="<?php echo $name; ?>" disabled></p>
+                <p class="p_I"><strong>Email:</strong> <input type="email" id="userEmail" value="<?php echo $email; ?>" disabled></p>
+                <p class="p_I"><strong>Mobile No:</strong> <input type="text" id="userMobile" value="<?php echo $mobile; ?>" disabled></p>
+                <p class="p_I"><strong>Age:</strong> <input type="text" id="Age" value="<?php echo $age; ?>" disabled></p>
                 
                 <button class="button_In" id="editInfoBtn" onclick="editInfo()">Edit Info</button>
                 <button class="button_In" id="saveInfoBtn" style="display: none;" onclick="saveInfo()">Save

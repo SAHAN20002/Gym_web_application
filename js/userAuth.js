@@ -46,9 +46,12 @@ document.getElementById("signupForm").addEventListener("submit", function (e) {
     formData.append("selectedGender", selectedGender);
     formData.append("p_number", p_number);
     formData.append("age", age);
-
-    alert("Password and Confirm Password are same");
-    alert("User ID  : " + userId);
+    
+    document.getElementById("loading-overlay").style.display = "flex";
+    // alert("Password and Confirm Password are same");
+    // alert("User ID  : " + userId);
+    
+   
   } else {
     alert("Password and Confirm Password are not same");
     document.getElementById("Password").value = "";
@@ -62,6 +65,7 @@ document.getElementById("signupForm").addEventListener("submit", function (e) {
   })
     .then((response) => response.text()) // Expecting text response
     .then((data) => {
+      document.getElementById("loading-overlay").style.display = "none";
       if (data.includes("Verification email sent!")) {
 
         setSessionWithExpiry("email", email, 604800000);

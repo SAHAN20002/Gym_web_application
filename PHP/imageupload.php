@@ -1,7 +1,7 @@
 <?php
 function saveImage($image) {
    
-    $targetDir = "uploads\\";
+    $targetDir = "uploads/";
 
    
     if (!file_exists($targetDir)) {
