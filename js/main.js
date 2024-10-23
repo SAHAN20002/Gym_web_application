@@ -210,10 +210,10 @@ window.onload = function (){
     
       
      if (isSessionSet()) {
-         alert('Session is set'); 
+        //  alert('Session is set'); 
          //showToast(successMsg);   
      } else {
-         alert('Session is not set');
+        //  alert('Session is not set');
          //showToast(invalidMsg);
      }
         
@@ -300,7 +300,7 @@ window.onload = function (){
                 
                 if(data[i].Instructor_Id === "IN001"){
                     document.getElementById("In_name_1").textContent = data[i].Name;
-                    document.getElementById("Price_1").textContent = data[i].price;
+                    document.getElementById("Price_1_1").textContent = data[i].price;
                     document.getElementById("In_Postion_1").textContent = data[i].description;
                     document.getElementById("In_Id_1").textContent = data[i].Instructor_Id;
 
@@ -323,7 +323,7 @@ window.onload = function (){
                 }
                 if(data[i].Instructor_Id === "IN002"){
                     document.getElementById("In_name_2").textContent = data[i].Name;
-                    document.getElementById("Price_2").textContent = data[i].price;
+                    document.getElementById("Price_2_2").textContent = data[i].price;
                     document.getElementById("In_Postion_2").textContent = data[i].description;
                     document.getElementById("In_Id_2").textContent = data[i].Instructor_Id;
 
@@ -344,7 +344,7 @@ window.onload = function (){
                 }
                 if(data[i].Instructor_Id === "IN003"){
                     document.getElementById("In_name_3").textContent = data[i].Name;
-                    document.getElementById("Price_3").textContent = data[i].price;
+                    document.getElementById("Price_3_3").textContent = data[i].price;
                     document.getElementById("In_Postion_3").textContent = data[i].description;
                     document.getElementById("In_Id_3").textContent = data[i].Instructor_Id;
 
