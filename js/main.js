@@ -304,6 +304,12 @@ window.onload = function (){
                     document.getElementById("In_Postion_1").textContent = data[i].description;
                     document.getElementById("In_Id_1").textContent = data[i].Instructor_Id;
 
+                    var photolink = data[i].In_photo;
+                    var imgElement = document.getElementById("img-01");
+                    imgElement.setAttribute('data-setbg', photolink);
+                    imgElement.style.backgroundImage = "url('" + photolink + "')";
+
+
                     if (data[i].user_count > 0) {
                          document.getElementById("IN_01").style.display = 'none';
                          document.getElementById("booked_message_1").textContent = 'Instructor fully booked!';
@@ -321,6 +327,11 @@ window.onload = function (){
                     document.getElementById("In_Postion_2").textContent = data[i].description;
                     document.getElementById("In_Id_2").textContent = data[i].Instructor_Id;
 
+                    var photolink = data[i].In_photo;
+                    var imgElement = document.getElementById("img-02");
+                    imgElement.setAttribute('data-setbg', photolink);
+                    imgElement.style.backgroundImage = "url('" + photolink + "')";
+
                     if (data[i].user_count > 0) {
                         document.getElementById("IN_02").style.display = 'none';
                         document.getElementById("booked_message_2").textContent = 'Instructor fully booked!';
@@ -336,6 +347,11 @@ window.onload = function (){
                     document.getElementById("Price_3").textContent = data[i].price;
                     document.getElementById("In_Postion_3").textContent = data[i].description;
                     document.getElementById("In_Id_3").textContent = data[i].Instructor_Id;
+
+                    var photolink = data[i].In_photo;
+                    var imgElement = document.getElementById("img-03");
+                    imgElement.setAttribute('data-setbg', photolink);
+                    imgElement.style.backgroundImage = "url('" + photolink + "')";
 
                     if (data[i].user_count > 10) {
                         document.getElementById("IN_03").style.display = 'none';
