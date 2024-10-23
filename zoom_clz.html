@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>zoom_clz</title>
+    <link rel="stylesheet" href="css/zoom_clz.css">
+</head>
+<body style="background-image: url('img/membership.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+    <button class="back-btn" onclick="goBack()">Back</button>
+    <img src="img/gym copy 2.png" alt="Logo" class="logo">
+    <div class="container">
+        
+        <h1>Update zoom class</h1>
+
+        <form id="membershipForm" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="membershipIdSelect">Select class ID:</label>
+                <select id="membershipIdSelect">
+                    <option value="">Select ID</option> 
+                    <option value="ID001">1</option>
+                    <option value="ID002">2</option>
+                    <option value="ID003">3</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <input type="text" id="Topic" placeholder="Topic">
+            </div>
+
+            <div class="form-group">
+                <input type="text" id="Instructor_Name" placeholder="Instructor Name">
+            </div>
+
+            <div class="form-group">
+                <label for="Time">Time</label>
+                <input type="Time" id="Time" placeholder="Time">
+            </div>
+
+            <div class="form-group">
+                <label for="Date">Date :</label>
+                <input type="Date" id="Date" placeholder="Date">
+            </div>
+
+            <div class="form-group">
+                <label for="Link">zoom Link :</label>
+                <input type="Link" id="Link" placeholder="Link">
+            </div>
+
+
+            
+
+            <div class="form-group">
+                <button type="submit" class="update-btn">Update</button>
+                <button type="reset" class="reset-btn">Reset</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="js/zoom_clz.js"></script>
+</body>
+</html>
