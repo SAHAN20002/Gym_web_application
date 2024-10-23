@@ -30,6 +30,12 @@ if ($result->num_rows > 0) {
         // Add the user count to the current instructor's data
         $row['user_count'] = $userCount;
 
+        $sqlAvilablestatus ="SELECT * FROM instrutor WHERE Instrutor_ID = '$instructorId'";
+        $resultAvilablestatus = $conn->query($sqlAvilablestatus);
+        $rowAvilablestatus = $resultAvilablestatus->fetch_assoc();
+        $row['status'] = $rowAvilablestatus['Avilable_Status'];
+        
+
         // Add instructor data to the array
         $data[] = $row;  
     }
